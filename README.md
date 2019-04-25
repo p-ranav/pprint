@@ -20,15 +20,6 @@ To start printing, create an ```PrettyPrinter```.
 pprint::PrettyPrinter printer;
 ```
 
-* Usage Examples
-  - [Fundamental Types](#fundamental-types)
-  - [STL Containers](#stl-containers)
-  - [Type-safe unions (std::variant)](#type-safe-unions-stdvariant)
-  - [Optional values (std::optional)](#optional-values-stdoptional)
-  - [Classes](#classes)
-* [Contribution](#contribution)
-* [License](#license)
-
 ## Fundamental Types
 
 ```cpp
