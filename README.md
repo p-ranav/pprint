@@ -25,7 +25,7 @@ pprint::PrettyPrinter printer;
   - [STL Containers](#stl-containers)
   - [Classes](#classes)
   - [Type-safe Unions (std::variant)](#type-safe-unions-stdvariant)
-  - [std::optional](#stdoptional)
+  - [Optional Values (std::optional)](#optional-values-stdoptional)
 * [Contribution](#contribution)
 * [License](#license)
 
@@ -140,7 +140,7 @@ printer.print(var);
 ]
 ```
 
-## std::optional
+## Optional Values (std::optional)
 
 ```cpp
 std::optional<int> opt = 5;
