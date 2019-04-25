@@ -67,14 +67,33 @@ namespace pprint {
 
     void print_internal(const std::string& value, size_t indent = 0, bool newline = false,
 			size_t level = 0) {
-      std::cout << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      std::cout << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
     }
     
     void print_internal(const char * value, size_t indent = 0, bool newline = false,
 			size_t level = 0) {
-      std::cout << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      std::cout << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
     }
 
+    void print_internal(char value, size_t indent = 0, bool newline = false, size_t level = 0) {
+      std::cout << std::string(indent, ' ') << "'" << value << "'" << (newline ? "\n" : "");
+    }    
+
+    void print_internal_without_quotes(const std::string& value, size_t indent = 0,
+				       bool newline = false, size_t level = 0) {
+      std::cout << std::string(indent, ' ') << value << (newline ? "\n" : "");
+    }
+    
+    void print_internal_without_quotes(const char * value, size_t indent = 0,
+				       bool newline = false, size_t level = 0) {
+      std::cout << std::string(indent, ' ') << value << (newline ? "\n" : "");
+    }    
+
+    void print_internal_without_quotes(char value, size_t indent = 0, bool newline = false,
+				       size_t level = 0) {
+      std::cout << std::string(indent, ' ') << value << (newline ? "\n" : "");
+    }        
+    
     void print_internal(bool value, size_t indent = 0, bool newline = false, size_t level = 0) {
       std::cout << std::string(indent, ' ') <<
 	(value ? "true" : "false") << (newline ? "\n" : "");
@@ -117,59 +136,59 @@ namespace pprint {
 			size_t level = 0) {
       if (level == 0) {
 	if (value.size() == 0) {
-	  print_internal("[", 0, false);
+	  print_internal_without_quotes("[", 0, false);
 	}
 	else if (value.size() == 1) {
-	  print_internal("[", 0, false);
+	  print_internal_without_quotes("[", 0, false);
 	  print_internal(value.front(), 0, false, level + 1);
 	}
 	else if (value.size() > 0) {
-	  print_internal("[", 0, true);
+	  print_internal_without_quotes("[", 0, true);
 	  print_internal(value.front(), indent + 4, false, level + 1);
 	  if (value.size() > 1 && is_container<T>::value == false)
-	    print_internal(", ", 0, true);
+	    print_internal_without_quotes(", ", 0, true);
 	  else if (is_container<T>::value)
-	    print_internal(", ", 0, true);
+	    print_internal_without_quotes(", ", 0, true);
 	  for (size_t i = 1; i < value.size() - 1; i++) {
 	    print_internal(value[i], indent + 4, false, level + 1);
 	    if (is_container<T>::value == false)
-	      print_internal(", ", 0, true);
+	      print_internal_without_quotes(", ", 0, true);
 	    else
-	      print_internal(", ", 0, true);	    
+	      print_internal_without_quotes(", ", 0, true);	    
 	  }
 	  if (value.size() > 1) {
 	    print_internal(value.back(), indent + 4, true, level + 1);
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal("]\n");
+	  print_internal_without_quotes("]\n");
 	else if (is_container<T>::value == false)
-	  print_internal("]\n");
+	  print_internal_without_quotes("]\n");
 	else
-	  print_internal("\n]\n");
+	  print_internal_without_quotes("\n]\n");
       }
       else {
 	if (value.size() == 0) {
-	  print_internal("[", indent, false);
+	  print_internal_without_quotes("[", indent, false);
 	}
 	else if (value.size() == 1) {
-	  print_internal("[", indent, false);
+	  print_internal_without_quotes("[", indent, false);
 	  print_internal(value.front(), 0, false, level + 1);
 	}
 	else if (value.size() > 0) {
-	  print_internal("[", indent, false);
+	  print_internal_without_quotes("[", indent, false);
 	  print_internal(value.front(), 0, false, level + 1);
 	  if (value.size() > 1)
-	    print_internal(", ", 0, false);
+	    print_internal_without_quotes(", ", 0, false);
 	  for (size_t i = 1; i < value.size() - 1; i++) {	      
 	    print_internal(value[i], 0, false, level + 1);
-	    print_internal(", ", 0, false);
+	    print_internal_without_quotes(", ", 0, false);
 	  }
 	  if (value.size() > 1) {
 	    print_internal(value.back(), 0, false, level + 1);
 	  }
 	}
-	print_internal("]", 0, false);
+	print_internal_without_quotes("]", 0, false);
       }
       
     }
@@ -179,13 +198,13 @@ namespace pprint {
 			size_t indent = 0, bool newline = false, size_t level = 0) {
       if (level == 0) {
 	if (value.size() == 0) {
-	  print_internal("{", 0, false);
+	  print_internal_without_quotes("{", 0, false);
 	}
 	else if (value.size() == 1) {
-	  print_internal("{", 0, false);
+	  print_internal_without_quotes("{", 0, false);
 	  for (auto& kvpair : value) {
 	    print_internal(kvpair.first, 0, false, level + 1);
-	    print_internal(" : ", 0, false);
+	    print_internal_without_quotes(" : ", 0, false);
 	    print_internal(kvpair.second, 0, false, level + 1);
 	  }
 	}
@@ -193,49 +212,49 @@ namespace pprint {
 	  size_t count = 0;
 	  for (auto& kvpair : value) {
 	    if (count == 0) {
-	      print_internal("{", 0, true);
+	      print_internal_without_quotes("{", 0, true);
 	      print_internal(kvpair.first, indent + 4, false, level + 1);
-	      print_internal(" : ", 0, false);
+	      print_internal_without_quotes(" : ", 0, false);
 	      print_internal(kvpair.second, 0, false, level + 1);
 	      if (value.size() > 1 && is_container<Value>::value == false)
-		print_internal(", ", 0, true);
+		print_internal_without_quotes(", ", 0, true);
 	      else if (is_container<Value>::value)
-		print_internal(", ", 0, true);
+		print_internal_without_quotes(", ", 0, true);
 	    }
 	    else if (count + 1 < value.size()) {
 	      print_internal(kvpair.first, indent + 4, false, level + 1);
-	      print_internal(" : ", 0, false);
+	      print_internal_without_quotes(" : ", 0, false);
 	      print_internal(kvpair.second, 0, false, level + 1);
 	      if (is_container<Value>::value == false)
-		print_internal(", ", 0, true);
+		print_internal_without_quotes(", ", 0, true);
 	      else
-		print_internal(", ", 0, true);
+		print_internal_without_quotes(", ", 0, true);
 	    }
 	    else {
 	      print_internal(kvpair.first, indent + 4, false, level + 1);
-	      print_internal(" : ", 0, false);
+	      print_internal_without_quotes(" : ", 0, false);
 	      print_internal(kvpair.second, 0, true, level + 1);
 	    }
 	    count += 1;
 	  }	  
 	}
 	if (value.size() == 0)
-	  print_internal("}\n");
+	  print_internal_without_quotes("}\n");
 	else if (is_container<Value>::value == false)
-	  print_internal("}\n");
+	  print_internal_without_quotes("}\n");
 	else
-	  print_internal("\n}\n");
+	  print_internal_without_quotes("\n}\n");
       }
       
       else {
 	if (value.size() == 0) {
-	  print_internal("{", indent, false);
+	  print_internal_without_quotes("{", indent, false);
 	}
 	else if (value.size() == 1) {
-	  print_internal("{", indent, false);
+	  print_internal_without_quotes("{", indent, false);
 	  for (auto& kvpair : value) {
 	    print_internal(kvpair.first, 0, false, level + 1);
-	    print_internal(" : ", 0, false);
+	    print_internal_without_quotes(" : ", 0, false);
 	    print_internal(kvpair.second, 0, false, level + 1);
 	  }
 	}
@@ -243,30 +262,39 @@ namespace pprint {
 	  size_t count = 0;
 	  for (auto& kvpair : value) {
 	    if (count == 0) {
-	      print_internal("{", indent, false);
+	      print_internal_without_quotes("{", indent, false);
 	      print_internal(kvpair.first, 0, false, level + 1);
-	      print_internal(" : ", 0, false);
+	      print_internal_without_quotes(" : ", 0, false);
 	      print_internal(kvpair.second, 0, false, level + 1);
-	      print_internal(", ", 0, false);
+	      print_internal_without_quotes(", ", 0, false);
 	    }
 	    else if (count + 1 < value.size()) {
 	      print_internal(kvpair.first, indent + 4, false, level + 1);
-	      print_internal(" : ", 0, false);
+	      print_internal_without_quotes(" : ", 0, false);
 	      print_internal(kvpair.second, 0, false, level + 1);
-	      print_internal(", ", 0, false);
+	      print_internal_without_quotes(", ", 0, false);
 	    }
 	    else {
 	      print_internal(kvpair.first, 0, false, level + 1);
-	      print_internal(" : ", 0, false);
+	      print_internal_without_quotes(" : ", 0, false);
 	      print_internal(kvpair.second, 0, false, level + 1);
 	    }
 	    count += 1;
 	  }	  
 	}
-	print_internal("}", 0, false);
+	print_internal_without_quotes("}", 0, false);
       }
-      
-    }    
+    }
+
+    template <typename Key, typename Value>
+    void print_internal(std::pair<Key, Value> value, size_t indent = 0, bool newline = false,
+			size_t level = 0) {
+      print_internal_without_quotes("(", indent);
+      print_internal(value.first, 0, false);
+      print_internal_without_quotes(", ");
+      print_internal(value.second, 0, false);
+      print_internal_without_quotes(")", 0, newline, level);
+    }
 
   };
   
