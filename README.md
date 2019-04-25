@@ -1,6 +1,27 @@
-# pprint
+# Pretty Printer for Modern C++
+
+## Highlights
+
+* Header-only library
+* Requires C++11
+* MIT License
 
 ## Quick Start
+
+Simply include pprint.hpp and you're good to go.
+
+```cpp
+#include <pprint.hpp>
+```
+
+To start printing, create an ```PrettyPrinter```. 
+
+```cpp
+pprint::PrettyPrinter printer;
+printer.indent(2);
+```
+
+## Examples
 
 ### std::vector
 
