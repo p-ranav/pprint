@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #ifdef __GNUG__
 #include <cstdlib>
 #include <memory>
@@ -125,7 +126,9 @@ namespace pprint {
     }    
 
     template <typename T>
-    typename std::enable_if<std::is_class<T>::value == true, void>::type
+    typename std::enable_if<std::is_class<T>::value == true &&
+			    is_specialization<T, std::map>::value == false &&
+			    is_specialization<T, std::unordered_map>::value == false, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
       std::cout << std::string(indent, ' ') << "<Object " << type(value) << ">"
 		<< (newline ? "\n" : "");
@@ -201,9 +204,11 @@ namespace pprint {
       
     }
 
-    template <typename Key, typename Value>
-    void print_internal(const std::map<Key, Value>& value,
-			size_t indent = 0, bool newline = false, size_t level = 0) {
+    template <typename T>
+    typename std::enable_if<is_specialization<T, std::map>::value == true ||
+			    is_specialization<T, std::unordered_map>::value, void>::type
+    print_internal(const T& value, size_t indent = 0, bool newline = false, size_t level = 0) {
+      typedef typename T::mapped_type Value;
       if (level == 0) {
 	if (value.size() == 0) {
 	  print_internal_without_quotes("{", 0, false);
