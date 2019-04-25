@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <iomanip>
 #ifdef __GNUG__
 #include <cstdlib>
 #include <memory>
@@ -139,6 +140,7 @@ namespace pprint {
 
     template <typename T>
     typename std::enable_if<std::is_class<T>::value == true &&
+			    is_specialization<T, std::variant>::value == false &&
 			    is_specialization<T, std::map>::value == false &&
 			    is_specialization<T, std::unordered_map>::value == false, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
@@ -152,7 +154,7 @@ namespace pprint {
       std::cout << std::string(indent, ' ') << "<Object.method " << type(value)
 		<< ">"
 		<< (newline ? "\n" : "");
-    }    
+    }
 
     template <typename T>
     void print_internal(const std::vector<T>& value, size_t indent = 0, bool newline = false,
@@ -319,6 +321,12 @@ namespace pprint {
       print_internal_without_quotes(", ");
       print_internal(value.second, 0, false);
       print_internal_without_quotes(")", 0, newline, level);
+    }
+
+    template <class ...Ts>
+    void print_internal(std::variant<Ts...> value, size_t indent = 0,
+			bool newline = false, size_t level = 0) {
+      std::visit([=](const auto& value) { print_internal(value, indent, newline, level); }, value);
     }
 
     size_t indent_;
