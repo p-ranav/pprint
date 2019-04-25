@@ -158,6 +158,7 @@ namespace pprint {
 			    is_specialization<T, std::variant>::value == false &&
 			    is_specialization<T, std::vector>::value == false &&
 			    is_specialization<T, std::map>::value == false &&
+			    is_specialization<T, std::multimap>::value == false &&
 			    is_specialization<T, std::unordered_map>::value == false, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
       std::cout << std::string(indent, ' ') << "<Object " << type(value) << ">"
@@ -238,6 +239,7 @@ namespace pprint {
 
     template <typename T>
     typename std::enable_if<is_specialization<T, std::map>::value == true ||
+			    is_specialization<T, std::multimap>::value == true ||
 			    is_specialization<T, std::unordered_map>::value, void>::type
     print_internal(const T& value, size_t indent = 0, bool newline = false, size_t level = 0) {
       typedef typename T::mapped_type Value;
