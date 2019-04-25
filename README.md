@@ -25,6 +25,7 @@ pprint::PrettyPrinter printer;
   - [STL Containers](#stl-containers)
   - [Classes](#classes)
   - [std::variant](#stdvariant)
+  - [std::optional](#stdoptional)
 * [Contribution](#contribution)
 * [License](#license)
 
