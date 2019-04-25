@@ -23,7 +23,7 @@ printer.indent(2);
 
 ## Table of Contents
 
-* [Usage Examples]
+* Usage Examples
   - [Fundamental Types](#fundamental-types)
   - [STL Containers](#stl-containers)
   - [Classes](#classes)
