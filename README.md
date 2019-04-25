@@ -22,7 +22,7 @@ printer.indent(2);
 printer.print(...);
 ```
 
-Here's a quick example showing how to print a vector of std::variant objects:
+Here's a quick example showing how to print a vector of ```std::variant``` objects
 
 ```cpp
 std::vector<std::variant<bool, int, float, std::string, std::vector<int>,
