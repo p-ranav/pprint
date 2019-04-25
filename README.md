@@ -21,11 +21,12 @@ printer.print(std::vector<int>{1, 2, 3, 4, 5});
 ### Nested vectors
 
 ```cpp
+std::cout << "foo = ";
 printer.print(std::vector<std::vector<int>>{{1, 2, 3}, {4, 5, 6}, {}, {7, 8}});
 ```
 
 ```bash
-[
+foo = [
   [1, 2, 3],
   [4, 5, 6],
   [],
