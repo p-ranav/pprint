@@ -69,10 +69,7 @@ Support for associative containers include ```std::map```, ```std::multimap```, 
 ```cpp
 printer.print(
   std::map<std::string, std::vector<std::pair<int, std::string>>>{ 
-    {"foo", {{1, "b"}, {2, "c"}, {3, "d"}}}, 
-    {"bar", {{4, "e"}, {5, "f"}, {6, "g"}}}
-  }
-);
+    {"foo", {{1, "b"}, {2, "c"}, {3, "d"}}}, {"bar", {{4, "e"}, {5, "f"}, {6, "g"}}}});
 ```
 
 ```bash
