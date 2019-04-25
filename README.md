@@ -29,6 +29,8 @@ printer.print(3.14f);
 printer.print(2.718);
 printer.print(true);
 printer.print('x');
+printer.print("Hello World!");
+printer.print(nullptr);
 ```
 
 ```bash
@@ -37,16 +39,8 @@ printer.print('x');
 2.718
 true
 'x'
-```
-
-### std::string
-
-```cpp
-printer.print("Hello World!");
-```
-
-```bash
 "Hello World!"
+null
 ```
 
 ## STL Containers
