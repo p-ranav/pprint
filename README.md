@@ -23,9 +23,9 @@ pprint::PrettyPrinter printer;
 * Usage Examples
   - [Fundamental Types](#fundamental-types)
   - [STL Containers](#stl-containers)
-  - [Classes](#classes)
   - [Type-safe Unions (std::variant)](#type-safe-unions-stdvariant)
   - [Optional Values (std::optional)](#optional-values-stdoptional)
+  - [Classes](#classes)
 * [Contribution](#contribution)
 * [License](#license)
 
@@ -87,22 +87,6 @@ printer.print(
 }
 ```
 
-## Classes
-
-### Pointer to member function
-
-```cpp
-class Bar {
-public:
-  void Foo() {}
-};
-printer.print(&Bar::Foo);
-```
-
-```bash
-<Object.method void (main::Bar::*)()>
-```
-
 ## Type-safe Unions (std::variant)
 
 ```cpp
@@ -152,6 +136,22 @@ printer.print(opt2);
 ```bash
 5
 nullopt
+```
+
+## Classes
+
+### Pointer to member function
+
+```cpp
+class Bar {
+public:
+  void Foo() {}
+};
+printer.print(&Bar::Foo);
+```
+
+```bash
+<Object.method void (main::Bar::*)()>
 ```
 
 ## Contribution
