@@ -48,7 +48,7 @@ printer.print(nullptr);
 true
 'x'
 "Hello World!"
-null
+nullptr
 ```
 
 ## STL Containers
