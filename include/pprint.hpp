@@ -91,8 +91,11 @@ namespace pprint {
     template <typename T>
     void print_internal(const std::vector<T>& value, size_t indent = 0, bool newline = false,
 			size_t level = 0) {
-      if (level == 0) {	
-	if (value.size() == 1) {
+      if (level == 0) {
+	if (value.size() == 0) {
+	  print_internal("[", 0, false);
+	}
+	else if (value.size() == 1) {
 	  print_internal("[", 0, false);
 	  print_internal(value.front(), 0, false, level + 1);
 	}
@@ -114,13 +117,18 @@ namespace pprint {
 	    print_internal(value.back(), indent + 4, true, level + 1);
 	  }
 	}
-	if (is_specialization<T, std::vector>::value == false)
+	if (value.size() == 0)
+	  print_internal("]\n");
+	else if (is_specialization<T, std::vector>::value == false)
 	  print_internal("]\n");
 	else
 	  print_internal("\n]\n");
       }
       else {
-	if (value.size() == 1) {
+	if (value.size() == 0) {
+	  print_internal("[", indent, false);
+	}
+	else if (value.size() == 1) {
 	  print_internal("[", indent, false);
 	  print_internal(value.front(), 0, false, level + 1);
 	}
