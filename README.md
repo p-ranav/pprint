@@ -90,22 +90,6 @@ null
 ### Sequence Containers: std::vector
 
 ```cpp
-printer.print(std::vector<int>{1, 2, 3, 4, 5});
-```
-
-```bash
-[
-  1,
-  2,
-  3,
-  4,
-  5
-]
-```
-
-pprint can handle other containers inside vectors:
-
-```cpp
 std::cout << "foo = ";
 printer.print(std::vector<std::vector<int>>{{1, 2, 3}, {4, 5, 6}, {}, {7, 8}});
 ```
@@ -120,22 +104,6 @@ foo = [
 ```
 
 ### Associative Containers: std::map
-
-```cpp
-printer.print(std::map<std::string, int>{ {"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}, {"e", 5}});
-```
-
-```bash
-{
-  "a" : 1,
-  "b" : 2,
-  "c" : 3,
-  "d" : 4,
-  "e" : 5
-}
-```
-
-Here's an example of an std::map with compound mapped_type values:
 
 ```cpp
   printer.print(std::map<std::string, std::vector<std::pair<int, std::string>>>{ 
