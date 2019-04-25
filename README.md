@@ -25,10 +25,6 @@ printer.indent(2);
 
 * [Fundamental Types](#fundamental-types)
 * [STL Containers](#stl-containers)
-  - [Sequence Containers](#sequence-containers-std-vector)
-     - [std::vector](#std-vector)
-  - [Associative Containers](#std-map)
-     - [std::map](#std-map)
 * [Classes](#classes)
 * [Contribution](#contribution)
 * [License](#license)
