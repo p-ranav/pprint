@@ -3,7 +3,7 @@
 ## Highlights
 
 * Header-only library
-* Requires C++11
+* Requires C++17
 * MIT License
 
 ## Quick Start
@@ -14,11 +14,40 @@ Simply include pprint.hpp and you're good to go.
 #include <pprint.hpp>
 ```
 
-To start printing, create an ```PrettyPrinter```. 
+To start printing, create an ```PrettyPrinter```. Here's a quick example showing how to print a vector of std::variant objects:
 
 ```cpp
+std::vector<std::variant<bool,
+       int,
+       float,
+       std::string,
+       std::vector<int>,
+       std::map<std::string, std::map<std::string, int>>,
+       std::pair<double, double>>> foo;
+foo.push_back(5);
+foo.push_back(3.14f);
+foo.push_back("Hello World");
+foo.push_back(std::vector<int>{1, 2, 3, 4});
+foo.push_back(std::map<std::string, std::map<std::string, int>>{
+    {"a", {{"b", 1}}}, {"c", {{"d", 2}, {"e", 3}}}});
+foo.push_back(true);
+foo.push_back(std::pair<double, double>{1.1, 2.2});
+
 pprint::PrettyPrinter printer;
 printer.indent(2);
+printer.print(foo);
+```
+
+```bash
+[
+  5, 
+  3.14f, 
+  true, 
+  [1, 2, 3, 4], 
+  {"a" : {"b" : 1}, "c" : {"d" : 2, "e" : 3}}, 
+  true, 
+  (1.1, 2.2)
+]
 ```
 
 ## Table of Contents
