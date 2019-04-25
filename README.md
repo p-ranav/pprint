@@ -23,9 +23,10 @@ printer.indent(2);
 
 ## Table of Contents
 
-* [Fundamental Types](#fundamental-types)
-* [STL Containers](#stl-containers)
-* [Classes](#classes)
+* [Usage Examples]
+  - [Fundamental Types](#fundamental-types)
+  - [STL Containers](#stl-containers)
+  - [Classes](#classes)
 * [Contribution](#contribution)
 * [License](#license)
 
