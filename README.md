@@ -27,7 +27,8 @@ Here's a quick example showing how to print a vector of ```std::variant``` objec
 ```cpp
 // Construct a vector of values
 std::vector<std::variant<bool, int, float, std::string, std::vector<int>,
-                         std::map<std::string, std::map<std::string, int>>, std::pair<double, double>>> foo;
+                         std::map<std::string, std::map<std::string, int>>, 
+                         std::pair<double, double>>> foo;
 foo.push_back(5);
 foo.push_back(3.14f);
 foo.push_back(std::string{"Hello World"});
