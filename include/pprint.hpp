@@ -4,6 +4,7 @@
 #include <typeinfo>
 #include <type_traits>
 #include <vector>
+#include <array>
 #include <map>
 #include <unordered_map>
 #include <iomanip>
@@ -155,6 +156,7 @@ namespace pprint {
     template <typename T>
     typename std::enable_if<std::is_class<T>::value == true &&
 			    is_specialization<T, std::variant>::value == false &&
+			    is_specialization<T, std::vector>::value == false &&
 			    is_specialization<T, std::map>::value == false &&
 			    is_specialization<T, std::unordered_map>::value == false, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
@@ -170,9 +172,11 @@ namespace pprint {
 		<< (newline ? "\n" : "");
     }
 
-    template <typename T>
-    void print_internal(const std::vector<T>& value, size_t indent = 0, bool newline = false,
-			size_t level = 0) {
+    template <typename Container>
+    typename std::enable_if<is_specialization<Container, std::vector>::value, void>::type    
+    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+		   size_t level = 0) {
+      typedef typename Container::value_type T;
       if (level == 0) {
 	if (value.size() == 0) {
 	  print_internal_without_quotes("[", 0, false);
