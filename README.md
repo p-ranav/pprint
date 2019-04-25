@@ -26,26 +26,28 @@ Here's a quick example showing how to print a vector of ```std::variant``` objec
 
 ```cpp
 // Construct a vector of values
-std::vector<std::variant<bool, int, float, std::string, std::vector<int>,
-                         std::map<std::string, std::map<std::string, int>>, 
-                         std::pair<double, double>>> foo;
-foo.push_back(5);
-foo.push_back(3.14f);
-foo.push_back(std::string{"Hello World"});
-foo.push_back(std::vector<int>{1, 2, 3, 4});
-foo.push_back(std::map<std::string, std::map<std::string, int>>{{"a",{{"b",1}}}, {"c",{{"d",2}, {"e",3}}}});
-foo.push_back(true);
-foo.push_back(std::pair<double, double>{1.1, 2.2});
+std::vector<std::variant<bool, int, int *, float, std::string, std::vector<int>,		      
+       std::map<std::string, std::map<std::string, int>>, 
+       std::pair<double, double>>> var;
+var.push_back(5);
+var.push_back(nullptr);
+var.push_back(3.14f);
+var.push_back(std::string{"Hello World"});
+var.push_back(std::vector<int>{1, 2, 3, 4});
+var.push_back(std::map<std::string, std::map<std::string, int>>{{"a",{{"b",1}}}, {"c",{{"d",2}, {"e",3}}}});
+var.push_back(true);
+var.push_back(std::pair<double, double>{1.1, 2.2});
 
 // Print the vector
 pprint::PrettyPrinter printer;
 printer.indent(2);
-printer.print(foo);
+printer.print(var);
 ```
 
 ```bash
 [
   5, 
+  nullptr,
   3.14f, 
   "Hello World", 
   [1, 2, 3, 4], 
