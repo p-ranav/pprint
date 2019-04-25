@@ -23,7 +23,7 @@ foo.push_back(5);
 foo.push_back(3.14f);
 foo.push_back("Hello World");
 foo.push_back(std::vector<int>{1, 2, 3, 4});
-foo.push_back(std::map<std::string, std::map<std::string, int>>{{"a", {{"b", 1}}}, {"c", {{"d", 2}, {"e", 3}}}});
+foo.push_back(std::map<std::string, std::map<std::string, int>>{{"a",{{"b",1}}}, {"c",{{"d",2}, {"e",3}}}});
 foo.push_back(true);
 foo.push_back(std::pair<double, double>{1.1, 2.2});
 ```
