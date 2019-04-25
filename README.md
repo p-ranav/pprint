@@ -21,6 +21,18 @@ pprint::PrettyPrinter printer;
 printer.indent(2);
 ```
 
+## Table of Contents
+
+* [Fundamental Types](#fundamental-types)
+* [STL Containers](#stl-containers)
+  - [Sequence Containers](#sequence-containers-std-vector)
+     - [std::vector](#std-vector)
+  - [Associative Containers](#std-map)
+     - [std::map](#std-map)
+* [Classes](#classes)
+* [Contribution](#contribution)
+* [License](#license)
+
 ## Fundamental Types
 
 ```cpp
@@ -124,3 +136,9 @@ printer.print(&Bar::Foo);
 ```bash
 <Object.method void (main::Bar::*)()>
 ```
+
+## Contribution
+Contributions are welcome, have a look at the [CONTRIBUTING.md](CONTRIBUTING.md) document for more information.
+
+## License
+The project is available under the [MIT](https://opensource.org/licenses/MIT) license.
