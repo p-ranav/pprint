@@ -42,7 +42,11 @@ true
 nullptr
 ```
 
-## Sequence Containers: std::vector
+## STL Sequence Containers
+
+pprint supports a variety of STL sequence containers including ```std::vector```, ```std::list```, ```std::deque```, ```std::array``` and ```std::forward_list```. 
+
+Here's an example that pretty prints an std::vector of vectors:
 
 ```cpp
 std::cout << "foo = ";
