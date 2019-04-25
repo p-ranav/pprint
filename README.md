@@ -25,6 +25,7 @@ printer.print(...);
 Here's a quick example showing how to print a vector of ```std::variant``` objects
 
 ```cpp
+// Construct a vector of values
 std::vector<std::variant<bool, int, float, std::string, std::vector<int>,
                          std::map<std::string, std::map<std::string, int>>, std::pair<double, double>>> foo;
 foo.push_back(5);
@@ -35,6 +36,7 @@ foo.push_back(std::map<std::string, std::map<std::string, int>>{{"a",{{"b",1}}},
 foo.push_back(true);
 foo.push_back(std::pair<double, double>{1.1, 2.2});
 
+// Print the vector
 pprint::PrettyPrinter printer;
 printer.indent(2);
 printer.print(foo);
