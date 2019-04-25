@@ -102,12 +102,15 @@ printer.print(std::map<std::string, int>{ {"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}
 ### Compound maps
 
 ```cpp
-printer.print(std::map<std::string, std::vector<int>>{ {"a", {1, 2, 3}}, {"b", {4, 5, 6}} });
-```
+  printer.print(std::map<std::string, std::vector<std::pair<int, std::string>>>{ 
+    {"a", {{1, "b"}, {2, "c"}, {3, "d"}}}, 
+    {"b", {{4, "e"}, {5, "f"}, {6, "g"}}}
+  });
+  ```
 
 ```bash
 {
-  "a" : [1, 2, 3],
-  "b" : [4, 5, 6]
+  "a" : [(1, "b"), (2, "c"), (3, "d")], 
+  "b" : [(4, "e"), (5, "f"), (6, "g")]
 }
 ```
