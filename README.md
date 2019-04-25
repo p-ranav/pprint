@@ -30,7 +30,7 @@ std::vector<std::variant<bool, int, float, std::string, std::vector<int>,
                          std::map<std::string, std::map<std::string, int>>, std::pair<double, double>>> foo;
 foo.push_back(5);
 foo.push_back(3.14f);
-foo.push_back("Hello World");
+foo.push_back(std::string{"Hello World"});
 foo.push_back(std::vector<int>{1, 2, 3, 4});
 foo.push_back(std::map<std::string, std::map<std::string, int>>{{"a",{{"b",1}}}, {"c",{{"d",2}, {"e",3}}}});
 foo.push_back(true);
@@ -46,7 +46,7 @@ printer.print(foo);
 [
   5, 
   3.14f, 
-  true, 
+  "Hello World", 
   [1, 2, 3, 4], 
   {"a" : {"b" : 1}, "c" : {"d" : 2, "e" : 3}}, 
   true, 
