@@ -63,6 +63,7 @@ printer.print(var);
   - [Fundamental Types](#fundamental-types)
   - [STL Containers](#stl-containers)
   - [Classes](#classes)
+  - [std::variant](#std-variant)
 * [Contribution](#contribution)
 * [License](#license)
 
@@ -138,6 +139,12 @@ printer.print(&Bar::Foo);
 
 ```bash
 <Object.method void (main::Bar::*)()>
+```
+
+## std::variant
+
+```cpp
+
 ```
 
 ## Contribution
