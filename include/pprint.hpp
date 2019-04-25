@@ -226,31 +226,46 @@ namespace pprint {
 	else
 	  print_internal("\n}\n");
       }
-      /*
+      
       else {
 	if (value.size() == 0) {
 	  print_internal("{", indent, false);
 	}
 	else if (value.size() == 1) {
 	  print_internal("{", indent, false);
-	  print_internal(value.front(), 0, false, level + 1);
+	  for (auto& kvpair : value) {
+	    print_internal(kvpair.first, 0, false, level + 1);
+	    print_internal(" : ", 0, false);
+	    print_internal(kvpair.second, 0, false, level + 1);
+	  }
 	}
 	else if (value.size() > 0) {
-	  print_internal("{", indent, false);
-	  print_internal(value.front(), 0, false, level + 1);
-	  if (value.size() > 1)
-	    print_internal(", ", 0, false);
-	  for (size_t i = 1; i < value.size() - 1; i++) {	      
-	    print_internal(value[i], 0, false, level + 1);
-	    print_internal(", ", 0, false);
-	  }
-	  if (value.size() > 1) {
-	    print_internal(value.back(), 0, false, level + 1);
-	  }
+	  size_t count = 0;
+	  for (auto& kvpair : value) {
+	    if (count == 0) {
+	      print_internal("{", indent, false);
+	      print_internal(kvpair.first, 0, false, level + 1);
+	      print_internal(" : ", 0, false);
+	      print_internal(kvpair.second, 0, false, level + 1);
+	      print_internal(", ", 0, false);
+	    }
+	    else if (count + 1 < value.size()) {
+	      print_internal(kvpair.first, indent + 4, false, level + 1);
+	      print_internal(" : ", 0, false);
+	      print_internal(kvpair.second, 0, false, level + 1);
+	      print_internal(", ", 0, false);
+	    }
+	    else {
+	      print_internal(kvpair.first, 0, false, level + 1);
+	      print_internal(" : ", 0, false);
+	      print_internal(kvpair.second, 0, false, level + 1);
+	    }
+	    count += 1;
+	  }	  
 	}
 	print_internal("}", 0, false);
       }
-      */
+      
     }    
 
   };
