@@ -62,7 +62,9 @@ foo = [
 ]
 ```
 
-## Associative Containers: std::map
+## STL Associative Containers
+
+Support for associative containers include ```std::map```, ```std::multimap```, ```std::set``` and ```std::multiset```. 
 
 ```cpp
 printer.print(
