@@ -23,6 +23,16 @@ printer.indent(2);
 
 ## Examples
 
+### std::string
+
+```cpp
+printer.print("Hello World!");
+```
+
+```bash
+"Hello World!"
+```
+
 ### std::vector
 
 ```cpp
