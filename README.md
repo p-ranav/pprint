@@ -24,7 +24,7 @@ pprint::PrettyPrinter printer;
   - [Fundamental Types](#fundamental-types)
   - [STL Containers](#stl-containers)
   - [Classes](#classes)
-  - [std::variant](#stdvariant)
+  - [Type-safe Unions (std::variant)](#type-safe-unions-stdvariant)
   - [std::optional](#stdoptional)
 * [Contribution](#contribution)
 * [License](#license)
@@ -103,7 +103,7 @@ printer.print(&Bar::Foo);
 <Object.method void (main::Bar::*)()>
 ```
 
-## std::variant
+## Type-safe Unions (std::variant)
 
 ```cpp
 
