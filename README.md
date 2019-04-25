@@ -23,6 +23,20 @@ printer.indent(2);
 
 ## Examples
 
+### Fundamental Types
+
+```cpp
+printer.print(5);
+printer.print(3.14f);
+printer.print(2.718);
+```
+
+```bash
+5
+3.14f
+2.718
+```
+
 ### std::string
 
 ```cpp
