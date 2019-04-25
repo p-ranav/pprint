@@ -42,9 +42,7 @@ true
 nullptr
 ```
 
-## STL Containers
-
-### Sequence Containers: std::vector
+## Sequence Containers: std::vector
 
 ```cpp
 std::cout << "foo = ";
@@ -60,7 +58,7 @@ foo = [
 ]
 ```
 
-### Associative Containers: std::map
+## Associative Containers: std::map
 
 ```cpp
 printer.print(
