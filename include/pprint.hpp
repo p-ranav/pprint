@@ -343,6 +343,17 @@ namespace pprint {
       std::visit([=](const auto& value) { print_internal(value, indent, newline, level); }, value);
     }
 
+    template <typename T>
+    void print_internal(std::optional<T> value, size_t indent = 0,
+			bool newline = false, size_t level = 0) {
+      if (value) {
+	print_internal(value.value(), indent, newline, level);
+      }
+      else {
+	print_internal_without_quotes("nullopt", indent, newline, level);
+      }
+    }
+
     size_t indent_;
     bool newline_;
     bool dereference_pointers_;
