@@ -128,8 +128,9 @@ printer.print(var);
 
 ```cpp
 std::optional<int> opt = 5;
-printer.print(opt);
 std::optional<int> opt2;
+
+printer.print(opt);
 printer.print(opt2);
 ```
 
