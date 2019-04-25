@@ -7,6 +7,7 @@
 #include <map>
 #include <unordered_map>
 #include <iomanip>
+#include <variant>
 #ifdef __GNUG__
 #include <cstdlib>
 #include <memory>
@@ -42,7 +43,8 @@ namespace pprint {
 
     PrettyPrinter() :
       indent_(0),
-      newline_(true) {}
+      newline_(true),
+      dereference_pointers_(false) {}
 
     void indent(size_t indent) {
       indent_ = indent;
@@ -51,6 +53,10 @@ namespace pprint {
     void newline(bool newline) {
       newline_ = newline;
     }
+
+    void dereference_pointers(bool value) {
+      dereference_pointers_ = value;
+    }    
 
     template <typename T>
     void print(T value) {
@@ -68,7 +74,7 @@ namespace pprint {
     template <typename T>
     typename std::enable_if<std::is_null_pointer<T>::value == true, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << "null" << (newline ? "\n" : "");
+      std::cout << std::string(indent, ' ') << "nullptr" << (newline ? "\n" : "");
     }
 
     void print_internal(float value, size_t indent = 0, bool newline = false, size_t level = 0) {
@@ -116,8 +122,16 @@ namespace pprint {
     template <typename T>
     typename std::enable_if<std::is_pointer<T>::value == true, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << "<" << type(value) << " at "
-		<< value << ">" << (newline ? "\n" : "");
+      if (value == nullptr) {
+	return print_internal(nullptr, indent, newline, level);
+      }
+      if (!dereference_pointers_) {
+	std::cout << std::string(indent, ' ') << "<" << type(value) << " at "
+		  << value << ">" << (newline ? "\n" : "");
+      }
+      else {
+	return print_internal(*value, indent, newline, level);
+      }
     }
 
     std::string demangle(const char* name) {
@@ -331,6 +345,7 @@ namespace pprint {
 
     size_t indent_;
     bool newline_;
+    bool dereference_pointers_;
 
   };
   
