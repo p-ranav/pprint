@@ -138,6 +138,19 @@ printer.print(var);
   (1.1, 2.2)
 ]
 ```
+
+## std::optional
+
+```cpp
+std::optional<int> opt = 5;
+printer.print(opt);
+std::optional<int> opt2;
+printer.print(opt2);
+```
+
+```bash
+5
+nullopt
 ```
 
 ## Contribution
