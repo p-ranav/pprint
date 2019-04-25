@@ -39,9 +39,21 @@ namespace pprint {
   class PrettyPrinter {
   public:
 
+    PrettyPrinter() :
+      indent_(0),
+      newline_(true) {}
+
+    void indent(size_t indent) {
+      indent_ = indent;
+    }
+
+    void newline(bool newline) {
+      newline_ = newline;
+    }
+
     template <typename T>
     void print(T value) {
-      print_internal(value, 0, true, 0);
+      print_internal(value, indent_, newline_, 0);
     }
 
   private:
@@ -308,6 +320,9 @@ namespace pprint {
       print_internal(value.second, 0, false);
       print_internal_without_quotes(")", 0, newline, level);
     }
+
+    size_t indent_;
+    bool newline_;
 
   };
   
