@@ -19,6 +19,21 @@ namespace pprint {
   template<template<typename...> class Ref, typename... Args>
   struct is_specialization<Ref<Args...>, Ref> : std::true_type {};
 
+  template<typename ...>
+  using to_void = void;
+  
+  template<typename T, typename = void>
+  struct is_container : std::false_type
+  {};
+  
+  template<typename T>
+  struct is_container<T,
+		    to_void<decltype(std::declval<T>().begin()),
+			    decltype(std::declval<T>().end()),
+			    typename T::value_type
+			    >> : std::true_type // will  be enabled for iterable objects
+  {};
+  
   class PrettyPrinter {
   public:
 
@@ -102,13 +117,13 @@ namespace pprint {
 	else if (value.size() > 0) {
 	  print_internal("[", 0, true);
 	  print_internal(value.front(), indent + 4, false, level + 1);
-	  if (value.size() > 1 && is_specialization<T, std::vector>::value == false)
+	  if (value.size() > 1 && is_container<T>::value == false)
 	    print_internal(", ", 0, true);
-	  else if (is_specialization<T, std::vector>::value)
+	  else if (is_container<T>::value)
 	    print_internal(", ", 0, true);
 	  for (size_t i = 1; i < value.size() - 1; i++) {
 	    print_internal(value[i], indent + 4, false, level + 1);
-	    if (is_specialization<T, std::vector>::value == false)
+	    if (is_container<T>::value == false)
 	      print_internal(", ", 0, true);
 	    else
 	      print_internal(", ", 0, true);	    
@@ -119,7 +134,7 @@ namespace pprint {
 	}
 	if (value.size() == 0)
 	  print_internal("]\n");
-	else if (is_specialization<T, std::vector>::value == false)
+	else if (is_container<T>::value == false)
 	  print_internal("]\n");
 	else
 	  print_internal("\n]\n");
