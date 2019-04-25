@@ -21,9 +21,7 @@ pprint::PrettyPrinter printer;
 printer.indent(2);
 ```
 
-## Examples
-
-### Fundamental Types
+## Fundamental Types
 
 ```cpp
 printer.print(5);
@@ -51,7 +49,9 @@ printer.print("Hello World!");
 "Hello World!"
 ```
 
-### std::vector
+## STL Containers
+
+### Sequence Containers: std::vector
 
 ```cpp
 printer.print(std::vector<int>{1, 2, 3, 4, 5});
@@ -67,7 +67,7 @@ printer.print(std::vector<int>{1, 2, 3, 4, 5});
 ]
 ```
 
-### Nested vectors
+pprint can handle other containers inside vectors:
 
 ```cpp
 std::cout << "foo = ";
@@ -83,7 +83,7 @@ foo = [
 ]
 ```
 
-### std::map
+### Associative Containers: std::map
 
 ```cpp
 printer.print(std::map<std::string, int>{ {"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}, {"e", 5}});
@@ -99,7 +99,7 @@ printer.print(std::map<std::string, int>{ {"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}
 }
 ```
 
-### Compound maps
+Here's an example of an std::map with compound mapped_type values:
 
 ```cpp
   printer.print(std::map<std::string, std::vector<std::pair<int, std::string>>>{ 
@@ -114,6 +114,8 @@ printer.print(std::map<std::string, int>{ {"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}
   "bar" : [(4, "e"), (5, "f"), (6, "g")]
 }
 ```
+
+## Classes
 
 ### Pointer to member function
 
