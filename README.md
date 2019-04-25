@@ -18,11 +18,7 @@ To start printing, create an ```PrettyPrinter```.
 
 ```cpp
 pprint::PrettyPrinter printer;
-printer.indent(2);
-printer.print(...);
 ```
-
-## Table of Contents
 
 * Usage Examples
   - [Fundamental Types](#fundamental-types)
