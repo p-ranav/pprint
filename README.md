@@ -67,15 +67,14 @@ foo = [
 Support for associative containers include ```std::map```, ```std::multimap```, ```std::set``` and ```std::multiset```. 
 
 ```cpp
-printer.print(
-  std::map<std::string, std::vector<std::pair<int, std::string>>>{ 
-    {"foo", {{1, "b"}, {2, "c"}, {3, "d"}}}, {"bar", {{4, "e"}, {5, "f"}, {6, "g"}}}});
+printer.print(std::map<std::string, std::set<int>>{ 
+    {"foo", {1, 2, 3, 3, 2, 1}}, {"bar", {7, 6, 5, 4}}});
 ```
 
 ```bash
 {
-  "foo" : [(1, "b"), (2, "c"), (3, "d")], 
-  "bar" : [(4, "e"), (5, "f"), (6, "g")]
+  "bar" : {4, 5, 6, 7}, 
+  "foo" : {1, 2, 3}
 }
 ```
 
