@@ -44,7 +44,7 @@ nullptr
 
 ## STL Sequence Containers
 
-pprint supports a variety of STL sequence containers including ```std::vector```, ```std::list```, ```std::deque```, ```std::array``` and ```std::forward_list```. 
+pprint supports a variety of STL sequence containers including ```std::vector```, ```std::list```, ```std::deque```, and ```std::array```. 
 
 Here's an example that pretty prints an std::vector of vectors:
 
