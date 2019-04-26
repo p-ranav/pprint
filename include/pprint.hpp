@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <vector>
 #include <list>
+#include <set>
 #include <array>
 #include <map>
 #include <unordered_map>
@@ -159,6 +160,8 @@ namespace pprint {
 			    is_specialization<T, std::variant>::value == false &&
 			    is_specialization<T, std::vector>::value == false &&
 			    is_specialization<T, std::list>::value == false &&
+			    is_specialization<T, std::set>::value == false &&
+			    is_specialization<T, std::multiset>::value == false &&
 			    is_specialization<T, std::map>::value == false &&
 			    is_specialization<T, std::multimap>::value == false &&
 			    is_specialization<T, std::unordered_map>::value == false, void>::type
@@ -260,8 +263,8 @@ namespace pprint {
 	  else if (is_container<T>::value)
 	    print_internal_without_quotes(", ", 0, true);
 
-	  typename std::list<T>::const_iterator iterator;
-	  for (iterator = std::next(value.begin()); iterator != value.end(); ++iterator) {
+	  typename Container::const_iterator iterator;
+	  for (iterator = std::next(value.begin()); iterator != std::prev(value.end()); ++iterator) {
 	    print_internal(*iterator, indent + indent_, false, level + 1);
 	    if (is_container<T>::value == false)
 	      print_internal_without_quotes(", ", 0, true);
@@ -294,8 +297,8 @@ namespace pprint {
 	  if (value.size() > 1)
 	    print_internal_without_quotes(", ", 0, false);
 
-	  typename std::list<T>::const_iterator iterator;
-	  for (iterator = std::next(value.begin()); iterator != value.end(); ++iterator) {
+	  typename Container::const_iterator iterator;
+	  for (iterator = std::next(value.begin()); iterator != std::prev(value.end()); ++iterator) {
 	    print_internal(*iterator, 0, false, level + 1);
 	    print_internal_without_quotes(", ", 0, false);	    
 	  }
@@ -308,6 +311,77 @@ namespace pprint {
       }
       
     }
+
+    template <typename Container>
+    typename std::enable_if<is_specialization<Container, std::set>::value ||
+			    is_specialization<Container, std::multiset>::value, void>::type    
+    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+		   size_t level = 0) {
+      typedef typename Container::value_type T;
+      if (level == 0) {
+	if (value.size() == 0) {
+	  print_internal_without_quotes("{", 0, false);
+	}
+	else if (value.size() == 1) {
+	  print_internal_without_quotes("{", 0, false);
+	  print_internal(*(value.begin()), 0, false, level + 1);
+	}
+	else if (value.size() > 0) {
+	  print_internal_without_quotes("{", 0, true);
+	  print_internal(*(value.begin()), indent + indent_, false, level + 1);
+	  if (value.size() > 1 && is_container<T>::value == false)
+	    print_internal_without_quotes(", ", 0, true);
+	  else if (is_container<T>::value)
+	    print_internal_without_quotes(", ", 0, true);
+
+	  typename Container::const_iterator iterator;
+	  for (iterator = std::next(value.begin()); iterator != std::prev(value.end()); ++iterator) {
+	    print_internal(*iterator, indent + indent_, false, level + 1);
+	    if (is_container<T>::value == false)
+	      print_internal_without_quotes(", ", 0, true);
+	    else
+	      print_internal_without_quotes(", ", 0, true);	    
+	  }
+	  
+	  if (value.size() > 1) {
+	    print_internal(*(std::prev(value.end())), indent + indent_, true, level + 1);
+	  }
+	}
+	if (value.size() == 0)
+	  print_internal_without_quotes("}\n");
+	else if (is_container<T>::value == false)
+	  print_internal_without_quotes("}\n");
+	else
+	  print_internal_without_quotes("\n}\n");
+      }
+      else {
+	if (value.size() == 0) {
+	  print_internal_without_quotes("{", indent, false);
+	}
+	else if (value.size() == 1) {
+	  print_internal_without_quotes("{", indent, false);
+	  print_internal(*(value.begin()), 0, false, level + 1);
+	}
+	else if (value.size() > 0) {
+	  print_internal_without_quotes("{", indent, false);
+	  print_internal(*(value.begin()), 0, false, level + 1);
+	  if (value.size() > 1)
+	    print_internal_without_quotes(", ", 0, false);
+
+	  typename Container::const_iterator iterator;
+	  for (iterator = std::next(value.begin()); iterator != std::prev(value.end()); ++iterator) {
+	    print_internal(*iterator, 0, false, level + 1);
+	    print_internal_without_quotes(", ", 0, false);	    
+	  }
+
+	  if (value.size() > 1) {
+	    print_internal(*(std::prev(value.end())), 0, false, level + 1);
+	  }
+	}
+	print_internal_without_quotes("}", 0, false);
+      }
+      
+    }    
 
     template <typename T>
     typename std::enable_if<is_specialization<T, std::map>::value == true ||
