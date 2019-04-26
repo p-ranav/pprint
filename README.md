@@ -42,6 +42,34 @@ true
 nullptr
 ```
 
+### Pointers
+
+Pretty printing pointers can be done in two ways. 
+
+You can pretty print a pointer without dereferencing like so:
+
+```cpp
+int * foo = new int(5);
+printer.print(foo);
+```
+
+```bash
+<int* at 0x55fb88b9c560>
+```
+
+If instead you need the printer to dereference the pointer before printing, you can set this up:
+
+```cpp
+int * foo = new int(10);
+printer.dereference_pointers(true);
+std::cout << "foo = ";
+printer.print(foo);
+```
+
+```bash
+foo = 10
+```
+
 ## STL Sequence Containers
 
 pprint supports a variety of STL sequence containers including ```std::vector```, ```std::list```, ```std::deque```, and ```std::array```. 
