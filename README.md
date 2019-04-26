@@ -14,7 +14,7 @@ Simply include pprint.hpp and you're good to go.
 #include <pprint.hpp>
 ```
 
-To start printing, create an ```PrettyPrinter```. 
+To start printing, create a ```PrettyPrinter```
 
 ```cpp
 pprint::PrettyPrinter printer;
