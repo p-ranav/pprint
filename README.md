@@ -67,7 +67,7 @@ printer.print(matrix);
 
 ## STL Associative Containers
 
-Support for associative containers include ```std::map```, ```std::multimap```, ```std::set``` and ```std::multiset```. 
+Support for associative containers include ```std::map```, ```std::multimap```, ```std::unordered_map```, ```std::unordered_multimap```, ```std::set```, ```std::multiset```, ```std::unordered_set``` and , ```std::unordered_multiset``` 
 
 ```cpp
 printer.print(std::map<std::string, std::set<int>>{ 
