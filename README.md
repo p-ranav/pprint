@@ -46,19 +46,22 @@ nullptr
 
 pprint supports a variety of STL sequence containers including ```std::vector```, ```std::list```, ```std::deque```, and ```std::array```. 
 
-Here's an example that pretty prints an std::vector of vectors:
+Here's an exmaple pretty print of a simple 3x3 matrix:
 
 ```cpp
-std::cout << "foo = ";
-printer.print(std::vector<std::vector<int>>{{1, 2, 3}, {4, 5, 6}, {}, {7, 8}});
+typedef std::array<std::array<int, 3>, 3> Mat3x3;
+Mat3x3 matrix;
+matrix[0] = {1, 2, 3};
+matrix[1] = {4, 5, 6};
+matrix[2] = {7, 8, 9};
+printer.print(matrix);
 ```
 
 ```bash
-foo = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [],
-  [7, 8]
+[
+  [1, 2, 3], 
+  [4, 5, 6], 
+  [7, 8, 9]
 ]
 ```
 
