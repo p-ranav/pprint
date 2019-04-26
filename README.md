@@ -53,7 +53,7 @@ int * foo = new int(5);
 printer.print(foo);
 ```
 
-```bash
+```
 <int* at 0x55fb88b9c560>
 ```
 
