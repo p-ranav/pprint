@@ -64,10 +64,15 @@ int * foo = new int(10);
 printer.dereference_pointers(true);
 std::cout << "foo = ";
 printer.print(foo);
+
+int * bar;
+std::cout << "bar = "; 
+printer.print(bar);
 ```
 
 ```bash
 foo = 10
+bar = nullptr;
 ```
 
 ## STL Sequence Containers
