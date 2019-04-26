@@ -5,7 +5,9 @@
 #include <type_traits>
 #include <vector>
 #include <list>
+#include <deque>
 #include <set>
+#include <unordered_set>
 #include <array>
 #include <map>
 #include <unordered_map>
@@ -160,11 +162,15 @@ namespace pprint {
 			    is_specialization<T, std::variant>::value == false &&
 			    is_specialization<T, std::vector>::value == false &&
 			    is_specialization<T, std::list>::value == false &&
+			    is_specialization<T, std::deque>::value == false &&
 			    is_specialization<T, std::set>::value == false &&
 			    is_specialization<T, std::multiset>::value == false &&
+			    is_specialization<T, std::unordered_set>::value == false &&
+			    is_specialization<T, std::unordered_multiset>::value == false &&			    
 			    is_specialization<T, std::map>::value == false &&
 			    is_specialization<T, std::multimap>::value == false &&
-			    is_specialization<T, std::unordered_map>::value == false, void>::type
+			    is_specialization<T, std::unordered_map>::value == false &&
+			    is_specialization<T, std::unordered_multimap>::value == false, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
       std::cout << std::string(indent, ' ') << "<Object " << type(value) << ">"
 		<< (newline ? "\n" : "");
@@ -305,7 +311,8 @@ namespace pprint {
     }    
 
     template <typename Container>
-    typename std::enable_if<is_specialization<Container, std::list>::value, void>::type    
+    typename std::enable_if<is_specialization<Container, std::list>::value ||
+			    is_specialization<Container, std::deque>::value, void>::type    
     print_internal(const Container& value, size_t indent = 0, bool newline = false,
 		   size_t level = 0) {
       typedef typename Container::value_type T;
@@ -376,7 +383,9 @@ namespace pprint {
 
     template <typename Container>
     typename std::enable_if<is_specialization<Container, std::set>::value ||
-			    is_specialization<Container, std::multiset>::value, void>::type    
+			    is_specialization<Container, std::multiset>::value ||
+			    is_specialization<Container, std::unordered_set>::value ||
+			    is_specialization<Container, std::unordered_multiset>::value, void>::type    
     print_internal(const Container& value, size_t indent = 0, bool newline = false,
 		   size_t level = 0) {
       typedef typename Container::value_type T;
@@ -448,7 +457,8 @@ namespace pprint {
     template <typename T>
     typename std::enable_if<is_specialization<T, std::map>::value == true ||
 			    is_specialization<T, std::multimap>::value == true ||
-			    is_specialization<T, std::unordered_map>::value, void>::type
+			    is_specialization<T, std::unordered_map>::value == true ||
+			    is_specialization<T, std::unordered_multimap>::value == true, void>::type
     print_internal(const T& value, size_t indent = 0, bool newline = false, size_t level = 0) {
       typedef typename T::mapped_type Value;
       if (level == 0) {
