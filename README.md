@@ -28,7 +28,7 @@ printer.print(3.14f);
 printer.print(2.718);
 printer.print(true);
 printer.print('x');
-printer.print("Hello World!");
+printer.print("Hello, 世界");
 printer.print(nullptr);
 ```
 
@@ -38,7 +38,7 @@ printer.print(nullptr);
 2.718
 true
 'x'
-"Hello World!"
+"Hello, 世界"
 nullptr
 ```
 
