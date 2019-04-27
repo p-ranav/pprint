@@ -438,6 +438,13 @@ namespace pprint {
       print_internal(value, indent, newline, level);
     }
 
+    template<typename T, typename... Targs>
+    void print(T value, Targs... Fargs) {
+      print_internal(value, 0, false, 0);
+      print_internal(" ", 0, false, 0);
+      print(Fargs...);
+    }
+
   private:
 
     template <typename T>
