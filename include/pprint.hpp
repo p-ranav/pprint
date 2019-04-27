@@ -347,8 +347,7 @@ namespace pprint {
 
     PrettyPrinter() :
       indent_(0),
-      newline_(true),
-      dereference_pointers_(false) {}
+      newline_(true) {}
 
     void indent(size_t indent) {
       indent_ = indent;
@@ -357,10 +356,6 @@ namespace pprint {
     void newline(bool newline) {
       newline_ = newline;
     }
-
-    void dereference_pointers(bool value) {
-      dereference_pointers_ = value;
-    }    
 
     template <typename T>
     void print(T value) {
@@ -429,13 +424,8 @@ namespace pprint {
       if (value == nullptr) {
 	return print_internal(nullptr, indent, newline, level);
       }
-      if (!dereference_pointers_) {
-	std::cout << std::string(indent, ' ') << "<" << type(value) << " at "
-		  << value << ">" << (newline ? "\n" : "");
-      }
-      else {
-	return print_internal(*value, indent, newline, level);
-      }
+      std::cout << std::string(indent, ' ') << "<" << type(value) << " at "
+		<< value << ">" << (newline ? "\n" : "");
     }
 
     std::string demangle(const char* name) {
@@ -894,7 +884,6 @@ namespace pprint {
 
     size_t indent_;
     bool newline_;
-    bool dereference_pointers_;
 
   };
   
