@@ -26,6 +26,7 @@
 #include <stack>
 #include <tuple>
 #include <initializer_list>
+#include <complex>
 #ifdef __GNUG__
 #include <cstdlib>
 #include <memory>
@@ -1073,7 +1074,15 @@ namespace pprint {
 			size_t level = 0) {
       std::cout << std::string(indent, ' ') << value <<
 	(newline ? "\n" : "");	
-    }    
+    }
+
+    template<typename T>
+    void print_internal(const std::complex<T>& value, size_t indent = 0, bool newline = false,
+			size_t level = 0) {
+      std::cout << std::string(indent, ' ') << "(" <<
+	value.real() << " + " << value.imag() << "i)" <<
+	(newline ? "\n" : "");	
+    }        
 
     size_t indent_;
     bool newline_;
