@@ -27,6 +27,8 @@
 #include <tuple>
 #include <initializer_list>
 #include <complex>
+#include <cmath>
+#include <memory>
 #ifdef __GNUG__
 #include <cstdlib>
 #include <memory>
@@ -556,6 +558,9 @@ namespace pprint {
     typename std::enable_if<std::is_class<T>::value == true &&
 			    is_to_stream_writable<std::ostream, T>::value == true &&
 			    std::is_enum<T>::value == false &&
+			    is_specialization<T, std::unique_ptr>::value == false &&
+			    is_specialization<T, std::shared_ptr>::value == false &&
+			    is_specialization<T, std::weak_ptr>::value == false &&
 			    is_specialization<T, std::tuple>::value == false &&
 			    is_specialization<T, std::variant>::value == false &&
 			    is_specialization<T, std::vector>::value == false &&
@@ -581,6 +586,9 @@ namespace pprint {
     typename std::enable_if<std::is_class<T>::value == true &&
 			    is_to_stream_writable<std::ostream, T>::value == false &&
 			    std::is_enum<T>::value == false &&
+			    is_specialization<T, std::unique_ptr>::value == false &&
+			    is_specialization<T, std::shared_ptr>::value == false &&
+			    is_specialization<T, std::weak_ptr>::value == false &&
 			    is_specialization<T, std::tuple>::value == false &&
 			    is_specialization<T, std::variant>::value == false &&
 			    is_specialization<T, std::vector>::value == false &&
@@ -1104,13 +1112,24 @@ namespace pprint {
 	value.real() << " + " << value.imag() << "i)" <<
 	(newline ? "\n" : "");	
     }
+
+    template<typename Pointer>
+    typename std::enable_if<is_specialization<Pointer, std::unique_ptr>::value ||
+			    is_specialization<Pointer, std::shared_ptr>::value ||
+			    is_specialization<Pointer, std::weak_ptr>::value, void>::type
+    print_internal(const Pointer& value, size_t indent = 0, bool newline = false,
+		   size_t level = 0) {
+      stream_ << std::string(indent, ' ') << "<" <<
+	type(value) <<
+	" at " << &value << ">" <<
+	(newline ? "\n" : "");	
+    }
     
     std::ostream& stream_;
     size_t indent_;
     bool newline_;
     bool quotes_;
     bool compact_;
-
   };
   
 }
