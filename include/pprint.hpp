@@ -13,6 +13,8 @@
 #include <unordered_map>
 #include <iomanip>
 #include <variant>
+#include <algorithm>
+#include <optional>
 #ifdef __GNUG__
 #include <cstdlib>
 #include <memory>
@@ -155,10 +157,18 @@ namespace pprint {
     template <class T>
     std::string type(const T& t) {
       return demangle(typeid(t).name());
+    }
+
+    template <typename T>
+    typename std::enable_if<std::is_enum<T>::value == true, void>::type
+    print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
+      std::cout << std::string(indent, ' ') << value
+		<< (newline ? "\n" : "");
     }    
 
     template <typename T>
     typename std::enable_if<std::is_class<T>::value == true &&
+			    std::is_enum<T>::value == false &&
 			    is_specialization<T, std::variant>::value == false &&
 			    is_specialization<T, std::vector>::value == false &&
 			    is_specialization<T, std::list>::value == false &&
