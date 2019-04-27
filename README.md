@@ -44,8 +44,6 @@ nullptr
 
 ## Complex Numbers (std::complex)
 
-```printer.print``` support parameter packing. You can quickly construct an expression you want to print, e.g., printing the product of two complex numbers:
-
 ```cpp
 using namespace std::complex_literals;
 std::complex<double> cfoo = 1. + 2.5i;
