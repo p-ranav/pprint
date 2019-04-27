@@ -96,6 +96,19 @@ printer.print(matrix);
 ]
 ```
 
+pprint also support compact printing of containers. Simply call ```printer.compact(true)``` to enable this:
+
+```cpp
+std::vector<std::map<std::string, int>> foo {{{"a", 1}, {"b", 2}}, {{"c", 3}, {"d", 4}}};
+printer.compact(true);
+std::cout << "Foo = ";
+printer.print(foo);
+```
+
+```bash
+Foo = [{"a" : 1, "b" : 2}, {"c" : 3, "d" : 4}]
+```
+
 ## STL Associative Containers
 
 Support for associative containers includes pretty printing of ```std::map```, ```std::multimap```, ```std::unordered_map```, ```std::unordered_multimap```, ```std::set```, ```std::multiset```, ```std::unordered_set``` and , ```std::unordered_multiset``` 
