@@ -22,6 +22,8 @@
 #include <optional>
 #include <utility>
 #include <sstream>
+#include <queue>
+#include <stack>
 #ifdef __GNUG__
 #include <cstdlib>
 #include <memory>
@@ -482,6 +484,9 @@ namespace pprint {
 			    is_specialization<T, std::vector>::value == false &&
 			    is_specialization<T, std::list>::value == false &&
 			    is_specialization<T, std::deque>::value == false &&
+			    is_specialization<T, std::queue>::value == false &&
+			    is_specialization<T, std::priority_queue>::value == false &&
+			    is_specialization<T, std::stack>::value == false &&
 			    is_specialization<T, std::set>::value == false &&
 			    is_specialization<T, std::multiset>::value == false &&
 			    is_specialization<T, std::unordered_set>::value == false &&
@@ -503,6 +508,9 @@ namespace pprint {
 			    is_specialization<T, std::vector>::value == false &&
 			    is_specialization<T, std::list>::value == false &&
 			    is_specialization<T, std::deque>::value == false &&
+			    is_specialization<T, std::queue>::value == false &&
+			    is_specialization<T, std::priority_queue>::value == false &&
+			    is_specialization<T, std::stack>::value == false &&
 			    is_specialization<T, std::set>::value == false &&
 			    is_specialization<T, std::multiset>::value == false &&
 			    is_specialization<T, std::unordered_set>::value == false &&
@@ -926,6 +934,51 @@ namespace pprint {
       else {
 	print_internal_without_quotes("nullopt", indent, newline, level);
       }
+    }
+
+    template <typename Container>
+    typename std::enable_if<is_specialization<Container, std::queue>::value, void>::type
+    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+		   size_t level = 0) {
+      typedef typename Container::value_type T;
+      auto local = value;
+      std::vector<T> local_vector;
+      while (!local.empty()) {
+	local_vector.push_back(local.front());
+	local.pop();
+      }
+      print_internal(local_vector, indent, newline, level);
+    }
+
+    template <typename Container>
+    typename std::enable_if<is_specialization<Container, std::priority_queue>::value, void>::type
+    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+		   size_t level = 0) {
+      typedef typename Container::value_type T;
+      auto local = value;
+      std::vector<T> local_vector;
+      while (!local.empty()) {
+	local_vector.push_back(local.top());
+	local.pop();
+      }
+      print_internal(local_vector, indent, newline, level);
+    }    
+
+    template <typename Container>
+    typename std::enable_if<is_specialization<Container, std::stack>::value, void>::type
+    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+		   size_t level = 0) {
+      bool current_compact = compact_;
+      compact_ = false; // Need to print a stack like its a stack, i.e., vertical
+      typedef typename Container::value_type T;
+      auto local = value;
+      std::vector<T> local_vector;
+      while (!local.empty()) {
+	local_vector.push_back(local.top());
+	local.pop();
+      }
+      print_internal(local_vector, indent, newline, level);
+      compact_ = current_compact;
     }
 
     size_t indent_;
