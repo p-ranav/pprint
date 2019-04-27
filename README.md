@@ -165,6 +165,22 @@ Stack = [
 ]
 ```
 
+## Fixed-size Heterogeneous Tuples (std::tuple)
+
+```cpp
+auto get_student = [](int id) {
+  if (id == 0) return std::make_tuple(3.8, 'A', "Lisa Simpson");
+  if (id == 1) return std::make_tuple(2.9, 'C', "Milhouse Van Houten");
+  if (id == 2) return std::make_tuple(1.7, 'D', "Ralph Wiggum");
+  throw std::invalid_argument("id");
+};
+printer.print({ get_student(0), get_student(1), get_student(2) });
+```
+
+```bash
+{(1.7, 'D', "Ralph Wiggum"), (2.9, 'C', "Milhouse Van Houten"), (3.8, 'A', "Lisa Simpson")}
+```
+
 ## Type-safe Unions (std::variant)
 
 ```cpp
