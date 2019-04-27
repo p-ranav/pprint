@@ -115,8 +115,6 @@ printer.print(std::map<std::string, std::set<int>>{
 ## Type-safe Unions (std::variant)
 
 ```cpp
-
-```cpp
 // Construct a vector of values
 std::vector<std::variant<bool, int, int *, float, std::string, std::vector<int>,		      
        std::map<std::string, std::map<std::string, int>>, 
