@@ -48,7 +48,7 @@ nullptr
 using namespace std::complex_literals;
 std::complex<double> cfoo = 1. + 2.5i;
 std::complex<double> cbar = 9. + 4i;
-printer.print(cfoo, "*", cbar, "=", (cfoo * cbar));
+printer.print(cfoo, "*", cbar, "=", (cfoo * cbar));   // parameter packing
 ```
 
 ```bash
