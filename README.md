@@ -96,7 +96,9 @@ printer.print(matrix);
 ]
 ```
 
-pprint also support compact printing of containers. Simply call ```printer.compact(true)``` to enable this:
+### Compact Printing
+
+pprint also supports compact printing of containers. Simply call ```printer.compact(true)``` to enable this:
 
 ```cpp
 std::vector<std::map<std::string, int>> foo {{{"a", 1}, {"b", 2}}, {{"c", 3}, {"d", 4}}};
