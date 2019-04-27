@@ -261,7 +261,8 @@ namespace magic_enum {
   } // namespace magic_enum::detail
 
   // Checks whether T is an Unscoped enumeration type.
-  // Provides the member constant value which is equal to true, if T is an [Unscoped enumeration](https://en.cppreference.com/w/cpp/language/enum#Unscoped_enumeration) type. Otherwise, value is equal to false.
+  // Provides the member constant value which is equal to true, if T is an [Unscoped enumeration](https://en.cppreference.com/w/cpp/language/enum#Unscoped_enumeration) type.
+  // Otherwise, value is equal to false.
   template <typename T>
   struct is_unscoped_enum : detail::is_unscoped_enum_impl<T> {};
 
@@ -269,7 +270,8 @@ namespace magic_enum {
   inline constexpr bool is_unscoped_enum_v = is_unscoped_enum<T>::value;
 
   // Checks whether T is an Scoped enumeration type.
-  // Provides the member constant value which is equal to true, if T is an [Scoped enumeration](https://en.cppreference.com/w/cpp/language/enum#Scoped_enumerations) type. Otherwise, value is equal to false.
+  // Provides the member constant value which is equal to true, if T is an [Scoped enumeration](https://en.cppreference.com/w/cpp/language/enum#Scoped_enumerations) type.
+  // Otherwise, value is equal to false.
   template <typename T>
   struct is_scoped_enum : detail::is_scoped_enum_impl<T> {};
 
@@ -406,7 +408,8 @@ namespace pprint {
   class PrettyPrinter {
   public:
 
-    PrettyPrinter() :
+    PrettyPrinter(std::ostream& stream = std::cout) :
+      stream_(stream),
       indent_(0),
       newline_(true),
       compact_(false),
@@ -451,21 +454,21 @@ namespace pprint {
     template <typename T>
     typename std::enable_if<std::is_integral<T>::value == true, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << (newline ? "\n" : "");
     }
 
     template <typename T>
     typename std::enable_if<std::is_null_pointer<T>::value == true, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << "nullptr" << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << "nullptr" << (newline ? "\n" : "");
     }
 
     void print_internal(float value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << value << 'f' << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << 'f' << (newline ? "\n" : "");
     }
 
     void print_internal(double value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << (newline ? "\n" : "");
     }
 
     void print_internal(const std::string& value, size_t indent = 0, bool newline = false,
@@ -473,7 +476,7 @@ namespace pprint {
       if (!quotes_)
 	print_internal_without_quotes(value, indent, newline, level);
       else
-	std::cout << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
+	stream_ << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
     }
     
     void print_internal(const char * value, size_t indent = 0, bool newline = false,
@@ -481,33 +484,33 @@ namespace pprint {
       if (!quotes_)
 	print_internal_without_quotes(value, indent, newline, level);
       else
-	std::cout << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
+	stream_ << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
     }
 
     void print_internal(char value, size_t indent = 0, bool newline = false, size_t level = 0) {
       if (!quotes_)
 	print_internal_without_quotes(value, indent, newline, level);
       else
-	std::cout << std::string(indent, ' ') << "'" << value << "'" << (newline ? "\n" : "");
+	stream_ << std::string(indent, ' ') << "'" << value << "'" << (newline ? "\n" : "");
     }    
 
     void print_internal_without_quotes(const std::string& value, size_t indent = 0,
 				       bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << (newline ? "\n" : "");
     }
     
     void print_internal_without_quotes(const char * value, size_t indent = 0,
 				       bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << (newline ? "\n" : "");
     }    
 
     void print_internal_without_quotes(char value, size_t indent = 0, bool newline = false,
 				       size_t level = 0) {
-      std::cout << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << (newline ? "\n" : "");
     }        
     
     void print_internal(bool value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') <<
+      stream_ << std::string(indent, ' ') <<
 	(value ? "true" : "false") << (newline ? "\n" : "");
     }
 
@@ -517,8 +520,8 @@ namespace pprint {
       if (value == nullptr) {
 	return print_internal(nullptr, indent, newline, level);
       }
-      std::cout << std::string(indent, ' ') << "<" << type(value) << " at "
-		<< value << ">" << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << "<" << type(value) << " at "
+	      << value << ">" << (newline ? "\n" : "");
     }
 
     std::string demangle(const char* name) {
@@ -544,12 +547,12 @@ namespace pprint {
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
       auto enum_string = magic_enum::enum_name(value);
       if (enum_string.has_value()) {
-	std::cout << std::string(indent, ' ') << enum_string.value()
-		  << (newline ? "\n" : "");
+	stream_ << std::string(indent, ' ') << enum_string.value()
+		<< (newline ? "\n" : "");
       }
       else {
-	std::cout << std::string(indent, ' ') << value
-		  << (newline ? "\n" : "");
+	stream_ << std::string(indent, ' ') << value
+		<< (newline ? "\n" : "");
       }
     }
 
@@ -574,8 +577,8 @@ namespace pprint {
 			    is_specialization<T, std::unordered_map>::value == false &&
 			    is_specialization<T, std::unordered_multimap>::value == false, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << value
-		<< (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value
+	      << (newline ? "\n" : "");
     }
 
     template <typename T>
@@ -599,16 +602,16 @@ namespace pprint {
 			    is_specialization<T, std::unordered_map>::value == false &&
 			    is_specialization<T, std::unordered_multimap>::value == false, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << "<Object " << type(value) << " at " << &value << ">"
-		<< (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << "<Object " << type(value) << " at " << &value << ">"
+	      << (newline ? "\n" : "");
     }
 
     template <typename T>
     typename std::enable_if<std::is_member_function_pointer<T>::value == true, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << "<Object.method " << type(value)
-		<< " at " << &value << ">"
-		<< (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << "<Object.method " << type(value)
+	      << " at " << &value << ">"
+	      << (newline ? "\n" : "");
     }
 
     template <typename Container>
@@ -1094,18 +1097,19 @@ namespace pprint {
     template<class... Args>
     void print_internal(const std::tuple<Args...>& value, size_t indent = 0, bool newline = false,
 			size_t level = 0) {
-      std::cout << std::string(indent, ' ') << value <<
+      stream_ << std::string(indent, ' ') << value <<
 	(newline ? "\n" : "");	
     }
 
     template<typename T>
     void print_internal(const std::complex<T>& value, size_t indent = 0, bool newline = false,
 			size_t level = 0) {
-      std::cout << std::string(indent, ' ') << "(" <<
+      stream_ << std::string(indent, ' ') << "(" <<
 	value.real() << " + " << value.imag() << "i)" <<
 	(newline ? "\n" : "");	
-    }        
-
+    }
+    
+    std::ostream& stream_;
     size_t indent_;
     bool newline_;
     bool quotes_;
