@@ -25,6 +25,7 @@
 #include <queue>
 #include <stack>
 #include <tuple>
+#include <initializer_list>
 #ifdef __GNUG__
 #include <cstdlib>
 #include <memory>
@@ -424,6 +425,12 @@ namespace pprint {
     template <typename T>
     void print(T value) {
       print_internal(value, 0, newline_, 0);
+    }
+
+    template <typename T>
+    void print(std::initializer_list<T> value, size_t indent = 0,
+    	       bool newline = false, size_t level = 0) {
+      print_internal(value, indent, newline, level);
     }
 
   private:
@@ -1012,7 +1019,24 @@ namespace pprint {
 	local.pop();
       }
       print_internal(local_vector, indent, newline, level);
-    }    
+    }
+
+    template <typename T>
+    void print_internal(std::initializer_list<T> value, size_t indent = 0,
+			bool newline = false, size_t level = 0) {
+      std::multiset<T> local;
+      for(const T& x : value) {
+	local.insert(x);
+      }
+      print_internal(local, indent, newline, level);
+    }
+
+    // template <typename ...Args>
+    // void print_internal(std::initializer_list<Args...> value, size_t indent = 0,
+    // 			bool newline = false, size_t level = 0) {
+    //   std::tuple<Args...> local = std::make_tuple(value);
+    //   print_internal(local, indent, newline, level);
+    // }    
 
     template <typename Container>
     typename std::enable_if<is_specialization<Container, std::stack>::value, void>::type
@@ -1031,20 +1055,6 @@ namespace pprint {
       compact_ = current_compact;
     }
 
-    template<std::size_t...> struct seq{};
-    
-    template<std::size_t N, std::size_t... Is>
-    struct gen_seq : gen_seq<N-1, N-1, Is...>{};
-    
-    template<std::size_t... Is>
-    struct gen_seq<0, Is...> : seq<Is...>{};
-    
-    template<class Ch, class Tr, class Tuple, std::size_t... Is>
-    void print_tuple(std::basic_ostream<Ch,Tr>& os, Tuple const& t, seq<Is...>){
-      using swallow = int[];
-      (void)swallow{0, (void(os << (Is == 0? "" : ", ") << std::get<Is>(t)), 0)...};
-    }
-    
     template<class... Args>
     void print_internal(const std::tuple<Args...>& value, size_t indent = 0, bool newline = false,
 			size_t level = 0) {
