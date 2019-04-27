@@ -206,9 +206,9 @@ std::ostream& operator<<(std::ostream& os, const Date& dt) {
   os << dt.month << '/' << dt.day << '/' << dt.year;
   return os;
 }
+```
 
-...
-...
+```cpp
 Date date(04, 07, 2019);
 std::cout << "Today's date is ";
 printer.print(date);
