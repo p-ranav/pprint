@@ -409,7 +409,8 @@ namespace pprint {
     PrettyPrinter() :
       indent_(0),
       newline_(true),
-      compact_(false) {}
+      compact_(false),
+      quotes_(true) {}
 
     void indent(size_t indent) {
       indent_ = indent;
@@ -642,11 +643,13 @@ namespace pprint {
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("]\n");
+	  print_internal_without_quotes("]");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("]\n");
+	  print_internal_without_quotes("]");
 	else
-	  print_internal_without_quotes("\n]\n");
+	  print_internal_without_quotes("\n]");
+	if (newline)
+	  print_internal_without_quotes("\n");
       }
       else {
 	if (value.size() == 0) {
@@ -671,7 +674,8 @@ namespace pprint {
 	}
 	print_internal_without_quotes("]", 0, false);
 	if (level == 0 && compact_)
-	  print_internal_without_quotes("\n");
+	  if (newline)
+	    print_internal_without_quotes("\n");
       }
       
     }
@@ -706,11 +710,13 @@ namespace pprint {
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("]\n");
+	  print_internal_without_quotes("]");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("]\n");
+	  print_internal_without_quotes("]");
 	else
-	  print_internal_without_quotes("\n]\n");
+	  print_internal_without_quotes("\n]");
+	if (newline)
+	  print_internal_without_quotes("\n");	
       }
       else {
 	if (value.size() == 0) {
@@ -735,7 +741,8 @@ namespace pprint {
 	}
 	print_internal_without_quotes("]", 0, false);
 	if (level == 0 && compact_)
-	  print_internal_without_quotes("\n");
+	  if (newline)
+	    print_internal_without_quotes("\n");
       }
       
     }    
@@ -776,11 +783,13 @@ namespace pprint {
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("]\n");
+	  print_internal_without_quotes("]");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("]\n");
+	  print_internal_without_quotes("]");
 	else
-	  print_internal_without_quotes("\n]\n");
+	  print_internal_without_quotes("\n]");
+	if (newline)
+	  print_internal_without_quotes("\n");	
       }
       else {
 	if (value.size() == 0) {
@@ -808,7 +817,8 @@ namespace pprint {
 	}
 	print_internal_without_quotes("]", 0, false);
 	if (level == 0 && compact_)
-	  print_internal_without_quotes("\n");	
+	  if (newline)
+	    print_internal_without_quotes("\n");	
       }
       
     }
@@ -851,11 +861,13 @@ namespace pprint {
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("}\n");
+	  print_internal_without_quotes("}");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("}\n");
+	  print_internal_without_quotes("}");
 	else
-	  print_internal_without_quotes("\n}\n");
+	  print_internal_without_quotes("\n}");
+	if (newline)
+	  print_internal_without_quotes("\n");	
       }
       else {
 	if (value.size() == 0) {
@@ -883,7 +895,8 @@ namespace pprint {
 	}
 	print_internal_without_quotes("}", 0, false);
 	if (level == 0 && compact_)
-	  print_internal_without_quotes("\n");	
+	  if (newline)
+	    print_internal_without_quotes("\n");
       }
       
     }    
@@ -938,11 +951,13 @@ namespace pprint {
 	  }	  
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("}\n");
+	  print_internal_without_quotes("}");
 	else if (is_container<Value>::value == false)
-	  print_internal_without_quotes("}\n");
+	  print_internal_without_quotes("}");
 	else
-	  print_internal_without_quotes("\n}\n");
+	  print_internal_without_quotes("\n}");
+	if (newline)
+	  print_internal_without_quotes("\n");	
       }
       
       else {
@@ -983,7 +998,8 @@ namespace pprint {
 	}
 	print_internal_without_quotes("}", 0, false);
 	if (level == 0 && compact_)
-	  print_internal_without_quotes("\n");
+	  if (newline)
+	    print_internal_without_quotes("\n");
       }
     }
 
@@ -1018,6 +1034,8 @@ namespace pprint {
     typename std::enable_if<is_specialization<Container, std::queue>::value, void>::type
     print_internal(const Container& value, size_t indent = 0, bool newline = false,
 		   size_t level = 0) {
+      auto current_compact = compact_;
+      compact_ = true;
       typedef typename Container::value_type T;
       auto local = value;
       std::vector<T> local_vector;
@@ -1026,12 +1044,15 @@ namespace pprint {
 	local.pop();
       }
       print_internal(local_vector, indent, newline, level);
+      compact_ = current_compact;
     }
 
     template <typename Container>
     typename std::enable_if<is_specialization<Container, std::priority_queue>::value, void>::type
     print_internal(const Container& value, size_t indent = 0, bool newline = false,
 		   size_t level = 0) {
+      auto current_compact = compact_;
+      compact_ = true;
       typedef typename Container::value_type T;
       auto local = value;
       std::vector<T> local_vector;
@@ -1040,6 +1061,7 @@ namespace pprint {
 	local.pop();
       }
       print_internal(local_vector, indent, newline, level);
+      compact_ = current_compact;
     }
 
     template <typename T>
@@ -1049,15 +1071,8 @@ namespace pprint {
       for(const T& x : value) {
 	local.insert(x);
       }
-      print_internal(local, indent, newline, level);
+      print_internal(local, indent, newline_, level);
     }
-
-    // template <typename ...Args>
-    // void print_internal(std::initializer_list<Args...> value, size_t indent = 0,
-    // 			bool newline = false, size_t level = 0) {
-    //   std::tuple<Args...> local = std::make_tuple(value);
-    //   print_internal(local, indent, newline, level);
-    // }    
 
     template <typename Container>
     typename std::enable_if<is_specialization<Container, std::stack>::value, void>::type
