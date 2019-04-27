@@ -3,7 +3,7 @@
 ## Highlights
 
 * Header-only library
-* Requires C++17
+* Requires atleast C++17
 * MIT License
 
 ## Quick Start
