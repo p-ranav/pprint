@@ -229,7 +229,7 @@ printer.print(&Bar::Foo);
 ```
 
 ```bash
-<Object.method void (main::Bar::*)()>
+<Object.method void (main::Bar::*)() at 0x7ffc4b22d130>
 ```
 
 ## Contribution
