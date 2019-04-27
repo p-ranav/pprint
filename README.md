@@ -141,7 +141,7 @@ printer.print(std::map<std::string, std::set<int>>{
 
 ## STL Container Adaptors
 
-pprint can print container adaptors including ```std::queue```, ```std::priority_queue``` and ```std::stack```. Here's an example print out of a priority queue:
+pprint can print container adaptors including ```std::queue```, ```std::priority_queue``` and ```std::stack```. Here's an example print of a priority queue:
 
 ```cpp
 std::priority_queue<int> queue;
@@ -152,29 +152,6 @@ printer.print(queue);
 
 ```bash
 [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
-```
-
-.. and here's a stack:
-
-```cpp
-std::stack <int> s; 
-s.push(10); 
-s.push(30); 
-s.push(20); 
-s.push(5); 
-s.push(1);
-std::cout << "Stack = ";
-printer.print(s);
-```
-
-```bash
-Stack = [
-  1, 
-  5, 
-  20,
-  30,
-  10
-]
 ```
 
 ## Fixed-size Heterogeneous Tuples
