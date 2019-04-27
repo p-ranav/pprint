@@ -50,6 +50,19 @@ true
 nullptr
 ```
 
+## Strings
+
+Maybe you don't want your strings to be quoted? Simply set ```printer.quotes(false)```
+
+```cpp
+printer.quotes(false);
+printer.print("Hello, World!");
+```
+
+```bash
+Hello, World!
+```
+
 ## Complex Numbers
 
 ```cpp
