@@ -419,10 +419,6 @@ namespace pprint {
       indent_ = indent;
     }
 
-    void newline(bool newline) {
-      newline_ = newline;
-    }
-
     void compact(bool value) {
       compact_ = value;
     }
