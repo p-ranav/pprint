@@ -520,7 +520,7 @@ namespace pprint {
     typename std::enable_if<std::is_member_function_pointer<T>::value == true, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
       std::cout << std::string(indent, ' ') << "<Object.method " << type(value)
-		<< ">"
+		<< " at " << &value << ">"
 		<< (newline ? "\n" : "");
     }
 
