@@ -21,11 +21,20 @@
 #include <string_view>
 #include <optional>
 #include <utility>
+#include <sstream>
 #ifdef __GNUG__
 #include <cstdlib>
 #include <memory>
 #include <cxxabi.h>
 #endif
+
+template<typename S, typename T, typename = void>
+struct is_to_stream_writable: std::false_type {};
+
+template<typename S, typename T>
+struct is_to_stream_writable<S, T,
+        std::void_t<  decltype( std::declval<S&>()<<std::declval<T>() )  > >
+: std::true_type {};
 
 // Enum value must be greater or equals than MAGIC_ENUM_RANGE_MIN. By default MAGIC_ENUM_RANGE_MIN = -128.
 // If need another min range for all enum types by default, redefine the macro MAGIC_ENUM_RANGE_MIN.
@@ -463,10 +472,11 @@ namespace pprint {
 	std::cout << std::string(indent, ' ') << value
 		  << (newline ? "\n" : "");
       }
-    }    
+    }
 
     template <typename T>
     typename std::enable_if<std::is_class<T>::value == true &&
+			    is_to_stream_writable<std::ostream, T>::value == true &&
 			    std::is_enum<T>::value == false &&
 			    is_specialization<T, std::variant>::value == false &&
 			    is_specialization<T, std::vector>::value == false &&
@@ -481,7 +491,28 @@ namespace pprint {
 			    is_specialization<T, std::unordered_map>::value == false &&
 			    is_specialization<T, std::unordered_multimap>::value == false, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << "<Object " << type(value) << ">"
+      std::cout << std::string(indent, ' ') << value
+		<< (newline ? "\n" : "");
+    }
+
+    template <typename T>
+    typename std::enable_if<std::is_class<T>::value == true &&
+			    is_to_stream_writable<std::ostream, T>::value == false &&
+			    std::is_enum<T>::value == false &&
+			    is_specialization<T, std::variant>::value == false &&
+			    is_specialization<T, std::vector>::value == false &&
+			    is_specialization<T, std::list>::value == false &&
+			    is_specialization<T, std::deque>::value == false &&
+			    is_specialization<T, std::set>::value == false &&
+			    is_specialization<T, std::multiset>::value == false &&
+			    is_specialization<T, std::unordered_set>::value == false &&
+			    is_specialization<T, std::unordered_multiset>::value == false &&			    
+			    is_specialization<T, std::map>::value == false &&
+			    is_specialization<T, std::multimap>::value == false &&
+			    is_specialization<T, std::unordered_map>::value == false &&
+			    is_specialization<T, std::unordered_multimap>::value == false, void>::type
+    print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
+      std::cout << std::string(indent, ' ') << "<Object " << type(value) << " at " << &value << ">"
 		<< (newline ? "\n" : "");
     }
 
