@@ -56,11 +56,13 @@ Maybe you don't want your strings to be quoted? Simply set ```printer.quotes(fal
 
 ```cpp
 printer.quotes(false);
-printer.print("Hello, World!");
+printer.print('A', 'B', 'C');
+printer.print("1 2 3");
 ```
 
 ```bash
-Hello, World!
+A B C
+1 2 3
 ```
 
 ## Complex Numbers
