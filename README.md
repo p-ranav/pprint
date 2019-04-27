@@ -44,8 +44,6 @@ nullptr
 
 ## Enumeration Types
 
-pprint support printing the value of enumerations:
-
 ```cpp
 enum Color { RED = 2, BLUE = 4, GREEN = 8 };
 Color color = BLUE;
