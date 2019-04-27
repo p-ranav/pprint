@@ -42,7 +42,7 @@ true
 nullptr
 ```
 
-## Complex Numbers (std::complex)
+## Complex Numbers
 
 ```cpp
 using namespace std::complex_literals;
@@ -177,7 +177,7 @@ Stack = [
 ]
 ```
 
-## Fixed-size Heterogeneous Tuples (std::tuple)
+## Fixed-size Heterogeneous Tuples
 
 ```cpp
 auto get_student = [](int id) {
@@ -193,7 +193,7 @@ printer.print({ get_student(0), get_student(1), get_student(2) });
 {(1.7, 'D', "Ralph Wiggum"), (2.9, 'C', "Milhouse Van Houten"), (3.8, 'A', "Lisa Simpson")}
 ```
 
-## Type-safe Unions (std::variant)
+## Type-safe Unions
 
 ```cpp
 // Construct a vector of values
@@ -228,7 +228,7 @@ printer.print(var);
 ]
 ```
 
-## Optional Values (std::optional)
+## Optional Values
 
 ```cpp
 std::optional<int> opt = 5;
