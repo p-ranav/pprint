@@ -253,7 +253,7 @@ Foo foo;
 printer.print(foo);
 ```
 
-```bash
+```
 <Object main::Foo at 0x7ffc8c820890>
 ```
 
