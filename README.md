@@ -284,20 +284,6 @@ printer.print(date);
 Today's date is 4/7/2019
 ```
 
-### Pointer to member function
-
-```cpp
-class Bar {
-public:
-  void Foo() {}
-};
-printer.print(&Bar::Foo);
-```
-
-```
-<Object.method void (main::Bar::*)() at 0x7ffc4b22d130>
-```
-
 ## Contribution
 Contributions are welcome, have a look at the [CONTRIBUTING.md](CONTRIBUTING.md) document for more information.
 
