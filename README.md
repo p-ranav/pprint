@@ -42,6 +42,20 @@ true
 nullptr
 ```
 
+## Complex Numbers (std::complex)
+
+```printer.print``` support parameter packing. You can quickly construct an expression you want to print, e.g., printing the product of two complex numbers:
+
+```cpp
+using namespace std::complex_literals;
+std::complex<double> cfoo = 1. + 2.5i;
+std::complex<double> cbar = 9. + 4i;
+printer.print(cfoo, "*", cbar, "=", (cfoo * cbar));
+```
+
+```bash
+(1 + 2.5i) * (9 + 4i) = (-1 + 26.5i)
+```
 ## Enumeration Types
 
 ```cpp
