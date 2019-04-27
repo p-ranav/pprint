@@ -177,7 +177,46 @@ printer.print(opt2);
 nullopt
 ```
 
-## Classes
+## Class Objects
+
+pprint print class objects with or without an overloaded ```<<``` operator 
+
+```cpp
+class Foo {};
+Foo foo;
+printer.print(foo);
+```
+
+```bash
+<Object main::Foo at 0x7ffc8c820890>
+```
+
+If an ```<<``` operator is available, pprint will use it to print your object:
+
+```cpp
+class Date {
+  unsigned int month, day, year;
+public:
+  Date(unsigned int m, unsigned int d, unsigned int y) : month(m), day(d), year(y) {}
+  friend std::ostream& operator<<(std::ostream& os, const Date& dt);
+};
+
+    
+std::ostream& operator<<(std::ostream& os, const Date& dt) {
+  os << dt.month << '/' << dt.day << '/' << dt.year;
+  return os;
+}
+
+...
+...
+Date date(04, 07, 2019);
+std::cout << "Today's date is ";
+printer.print(date);
+```
+
+```bash
+Today's date is 4/7/2019
+```
 
 ### Pointer to member function
 
