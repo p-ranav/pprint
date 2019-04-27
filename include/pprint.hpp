@@ -347,7 +347,8 @@ namespace pprint {
 
     PrettyPrinter() :
       indent_(0),
-      newline_(true) {}
+      newline_(true),
+      compact_(false) {}
 
     void indent(size_t indent) {
       indent_ = indent;
@@ -355,6 +356,10 @@ namespace pprint {
 
     void newline(bool newline) {
       newline_ = newline;
+    }
+
+    void compact(bool value) {
+      compact_ = value;
     }
 
     template <typename T>
@@ -493,7 +498,7 @@ namespace pprint {
     print_internal(const Container& value, size_t indent = 0, bool newline = false,
 		   size_t level = 0) {
       typedef typename Container::value_type T;
-      if (level == 0) {
+      if (level == 0 && !compact_) {
 	if (value.size() == 0) {
 	  print_internal_without_quotes("[", 0, false);
 	}
@@ -548,6 +553,8 @@ namespace pprint {
 	  }
 	}
 	print_internal_without_quotes("]", 0, false);
+	if (level == 0 && compact_)
+	  print_internal_without_quotes("\n");
       }
       
     }
@@ -884,6 +891,7 @@ namespace pprint {
 
     size_t indent_;
     bool newline_;
+    bool compact_;
 
   };
   
