@@ -60,7 +60,7 @@ If you compile with
 * Xcode >= 10.2
 * GCC >= 9
 
-then pprint will print the name of the enum for you:
+then pprint will print the name of the enum for you (Thanks [magic_enum](https://github.com/Neargye/magic_enum)!)
 
 ```cpp
 enum Level { LOW, MEDIUM, HIGH };
