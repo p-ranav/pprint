@@ -42,39 +42,6 @@ true
 nullptr
 ```
 
-### Pointers
-
-Pretty printing pointers can be done in two ways. 
-
-You can pretty print a pointer without dereferencing like so:
-
-```cpp
-int * foo = new int(5);
-printer.print(foo);
-```
-
-```
-<int* at 0x55fb88b9c560>
-```
-
-If instead you need the printer to dereference the pointer before printing, you can set this up:
-
-```cpp
-int * foo = new int(10);
-printer.dereference_pointers(true);
-std::cout << "foo = ";
-printer.print(foo);
-
-int * bar;
-std::cout << "bar = "; 
-printer.print(bar);
-```
-
-```bash
-foo = 10
-bar = nullptr;
-```
-
 ## Enumeration Types
 
 pprint support printing the value of enumerations:
