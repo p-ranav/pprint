@@ -422,6 +422,10 @@ namespace pprint {
       compact_ = value;
     }
 
+    void quotes(bool value) {
+      quotes_ = value;
+    }    
+
     template <typename T>
     void print(T value) {
       print_internal(value, 0, newline_, 0);
@@ -457,16 +461,25 @@ namespace pprint {
 
     void print_internal(const std::string& value, size_t indent = 0, bool newline = false,
 			size_t level = 0) {
-      std::cout << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
+      if (!quotes_)
+	print_internal_without_quotes(value, indent, newline, level);
+      else
+	std::cout << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
     }
     
     void print_internal(const char * value, size_t indent = 0, bool newline = false,
 			size_t level = 0) {
-      std::cout << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
+      if (!quotes_)
+	print_internal_without_quotes(value, indent, newline, level);
+      else
+	std::cout << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
     }
 
     void print_internal(char value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      std::cout << std::string(indent, ' ') << "'" << value << "'" << (newline ? "\n" : "");
+      if (!quotes_)
+	print_internal_without_quotes(value, indent, newline, level);
+      else
+	std::cout << std::string(indent, ' ') << "'" << value << "'" << (newline ? "\n" : "");
     }    
 
     void print_internal_without_quotes(const std::string& value, size_t indent = 0,
@@ -1064,6 +1077,7 @@ namespace pprint {
 
     size_t indent_;
     bool newline_;
+    bool quotes_;
     bool compact_;
 
   };
