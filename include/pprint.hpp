@@ -562,7 +562,7 @@ namespace pprint {
     template <typename T, unsigned long int S>
     void print_internal(const std::array<T, S>& value, size_t indent = 0, bool newline = false,
 		   size_t level = 0) {
-      if (level == 0) {
+      if (level == 0 && !compact_) {
 	if (value.size() == 0) {
 	  print_internal_without_quotes("[", 0, false);
 	}
@@ -617,6 +617,8 @@ namespace pprint {
 	  }
 	}
 	print_internal_without_quotes("]", 0, false);
+	if (level == 0 && compact_)
+	  print_internal_without_quotes("\n");
       }
       
     }    
@@ -627,7 +629,7 @@ namespace pprint {
     print_internal(const Container& value, size_t indent = 0, bool newline = false,
 		   size_t level = 0) {
       typedef typename Container::value_type T;
-      if (level == 0) {
+      if (level == 0 && !compact_) {
 	if (value.size() == 0) {
 	  print_internal_without_quotes("[", 0, false);
 	}
@@ -688,6 +690,8 @@ namespace pprint {
 	  }
 	}
 	print_internal_without_quotes("]", 0, false);
+	if (level == 0 && compact_)
+	  print_internal_without_quotes("\n");	
       }
       
     }
@@ -700,7 +704,7 @@ namespace pprint {
     print_internal(const Container& value, size_t indent = 0, bool newline = false,
 		   size_t level = 0) {
       typedef typename Container::value_type T;
-      if (level == 0) {
+      if (level == 0 && !compact_) {
 	if (value.size() == 0) {
 	  print_internal_without_quotes("{", 0, false);
 	}
@@ -761,6 +765,8 @@ namespace pprint {
 	  }
 	}
 	print_internal_without_quotes("}", 0, false);
+	if (level == 0 && compact_)
+	  print_internal_without_quotes("\n");	
       }
       
     }    
@@ -772,7 +778,7 @@ namespace pprint {
 			    is_specialization<T, std::unordered_multimap>::value == true, void>::type
     print_internal(const T& value, size_t indent = 0, bool newline = false, size_t level = 0) {
       typedef typename T::mapped_type Value;
-      if (level == 0) {
+      if (level == 0 && !compact_) {
 	if (value.size() == 0) {
 	  print_internal_without_quotes("{", 0, false);
 	}
@@ -859,6 +865,8 @@ namespace pprint {
 	  }	  
 	}
 	print_internal_without_quotes("}", 0, false);
+	if (level == 0 && compact_)
+	  print_internal_without_quotes("\n");
       }
     }
 
