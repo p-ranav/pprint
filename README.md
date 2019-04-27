@@ -20,6 +20,14 @@ To start printing, create a ```PrettyPrinter```
 pprint::PrettyPrinter printer;
 ```
 
+You can construct a ```PrettyPrinter``` with any stream that inherits from ```std::ostream``` , e.g, ```std::stringstream```
+
+```cpp
+std::stringstream stream;
+pprint::PrettyPrinter printer(stream);
+```
+
+
 ## Fundamental Types
 
 ```cpp
