@@ -56,7 +56,7 @@ Maybe you don't want your strings to be quoted? Simply set ```printer.quotes(fal
 
 ```cpp
 printer.quotes(false);
-printer.print('A', 'B', 'C');
+printer.print('A', 'B', 'C');   // parameter packing
 printer.print("1 2 3");
 ```
 
