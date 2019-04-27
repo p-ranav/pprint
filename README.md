@@ -75,6 +75,39 @@ foo = 10
 bar = nullptr;
 ```
 
+## Enumeration Types
+
+pprint support printing the value of enumerations:
+
+```cpp
+enum Color { RED = 2, BLUE = 4, GREEN = 8 };
+Color color = BLUE;
+printer.print(color);
+```
+
+```bash
+4
+```
+
+If you compile with
+* Clang/LLVM >= 5
+* Visual C++ >= 15.3 / Visual Studio >= 2017
+* Xcode >= 10.2
+* GCC >= 9
+
+then pprint will print the name of the enum for you:
+
+```cpp
+enum Level { LOW, MEDIUM, HIGH };
+Level current_level = MEDIUM;
+std::cout << "Current level: ";
+printer.print(current_level);
+```
+
+```bash
+Current level: MEDIUM
+```
+
 ## STL Sequence Containers
 
 pprint supports a variety of STL sequence containers including ```std::vector```, ```std::list```, ```std::deque```, and ```std::array```. 
