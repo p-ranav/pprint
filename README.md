@@ -4,7 +4,7 @@
 
 ## Highlights
 
-* Header-only library
+* Single header file
 * Requires C++17
 * MIT License
 
