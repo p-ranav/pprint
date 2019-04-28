@@ -420,7 +420,7 @@ namespace pprint {
     PrettyPrinter(std::ostream& stream = std::cout) :
       stream_(stream),
       line_terminator_("\n"),
-      indent_(0),
+      indent_(2),
       compact_(false),
       quotes_(true) {}
 
