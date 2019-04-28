@@ -412,7 +412,6 @@ namespace pprint {
     std::ostream& stream_;
     std::string line_terminator_;
     size_t indent_;
-    bool newline_;
     bool quotes_;
     bool compact_;    
 
@@ -422,7 +421,6 @@ namespace pprint {
       stream_(stream),
       line_terminator_("\n"),
       indent_(0),
-      newline_(true),
       compact_(false),
       quotes_(true) {}
 
@@ -444,19 +442,18 @@ namespace pprint {
 
     template <typename T>
     void print(T value) {
-      print_internal(value, 0, newline_, 0);
+      print_internal(value, 0, line_terminator_, 0);
     }
 
     template <typename T>
-    void print(std::initializer_list<T> value, size_t indent = 0,
-    	       bool newline = false, size_t level = 0) {
-      print_internal(value, indent, newline, level);
+    void print(std::initializer_list<T> value) {
+      print_internal(value, 0, line_terminator_, 0);
     }
 
     template<typename T, typename... Targs>
     void print(T value, Targs... Fargs) {
-      print_internal(value, 0, false, 0);
-      print_internal(" ", 0, false, 0);
+      print_internal(value, 0, "", 0);
+      print_internal(" ", 0, "", 0);
       print(Fargs...);
     }
 
@@ -464,75 +461,75 @@ namespace pprint {
 
     template <typename T>
     typename std::enable_if<std::is_integral<T>::value == true, void>::type
-    print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << (newline ? line_terminator_ : "");
+    print_internal(T value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
+      stream_ << std::string(indent, ' ') << value << line_terminator;
     }
 
     template <typename T>
     typename std::enable_if<std::is_null_pointer<T>::value == true, void>::type
-    print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << "nullptr" << (newline ? line_terminator_ : "");
+    print_internal(T value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
+      stream_ << std::string(indent, ' ') << "nullptr" << line_terminator;
     }
 
-    void print_internal(float value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << 'f' << (newline ? line_terminator_ : "");
+    void print_internal(float value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
+      stream_ << std::string(indent, ' ') << value << 'f' << line_terminator;
     }
 
-    void print_internal(double value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << (newline ? line_terminator_ : "");
+    void print_internal(double value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
+      stream_ << std::string(indent, ' ') << value << line_terminator;
     }
 
-    void print_internal(const std::string& value, size_t indent = 0, bool newline = false,
+    void print_internal(const std::string& value, size_t indent = 0, const std::string& line_terminator = "\n",
 			size_t level = 0) {
       if (!quotes_)
-	print_internal_without_quotes(value, indent, newline, level);
+	print_internal_without_quotes(value, indent, line_terminator, level);
       else
-	stream_ << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? line_terminator_ : "");
+	stream_ << std::string(indent, ' ') << "\"" << value << "\"" << line_terminator;
     }
     
-    void print_internal(const char * value, size_t indent = 0, bool newline = false,
+    void print_internal(const char * value, size_t indent = 0, const std::string& line_terminator = "\n",
 			size_t level = 0) {
       if (!quotes_)
-	print_internal_without_quotes(value, indent, newline, level);
+	print_internal_without_quotes(value, indent, line_terminator, level);
       else
-	stream_ << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? line_terminator_ : "");
+	stream_ << std::string(indent, ' ') << "\"" << value << "\"" << line_terminator;
     }
 
-    void print_internal(char value, size_t indent = 0, bool newline = false, size_t level = 0) {
+    void print_internal(char value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
       if (!quotes_)
-	print_internal_without_quotes(value, indent, newline, level);
+	print_internal_without_quotes(value, indent, line_terminator, level);
       else
-	stream_ << std::string(indent, ' ') << "'" << value << "'" << (newline ? line_terminator_ : "");
+	stream_ << std::string(indent, ' ') << "'" << value << "'" << line_terminator;
     }    
 
     void print_internal_without_quotes(const std::string& value, size_t indent = 0,
-				       bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << (newline ? line_terminator_ : "");
+				       const std::string& line_terminator = "\n", size_t level = 0) {
+      stream_ << std::string(indent, ' ') << value << line_terminator;
     }
     
     void print_internal_without_quotes(const char * value, size_t indent = 0,
-				       bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << (newline ? line_terminator_ : "");
+				       const std::string& line_terminator = "\n", size_t level = 0) {
+      stream_ << std::string(indent, ' ') << value << line_terminator;
     }    
 
-    void print_internal_without_quotes(char value, size_t indent = 0, bool newline = false,
+    void print_internal_without_quotes(char value, size_t indent = 0, const std::string& line_terminator = "\n",
 				       size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << (newline ? line_terminator_ : "");
+      stream_ << std::string(indent, ' ') << value << line_terminator;
     }        
     
-    void print_internal(bool value, size_t indent = 0, bool newline = false, size_t level = 0) {
+    void print_internal(bool value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
       stream_ << std::string(indent, ' ') <<
-	(value ? "true" : "false") << (newline ? line_terminator_ : "");
+	(value ? "true" : "false") << line_terminator;
     }
 
     template <typename T>
     typename std::enable_if<std::is_pointer<T>::value == true, void>::type
-    print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
+    print_internal(T value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
       if (value == nullptr) {
-	return print_internal(nullptr, indent, newline, level);
+	return print_internal(nullptr, indent, line_terminator, level);
       }
       stream_ << std::string(indent, ' ') << "<" << type(value) << " at "
-	      << value << ">" << (newline ? line_terminator_ : "");
+	      << value << ">" << line_terminator;
     }
 
     std::string demangle(const char* name) {
@@ -555,15 +552,15 @@ namespace pprint {
 
     template <typename T>
     typename std::enable_if<std::is_enum<T>::value == true, void>::type
-    print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
+    print_internal(T value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
       auto enum_string = magic_enum::enum_name(value);
       if (enum_string.has_value()) {
 	stream_ << std::string(indent, ' ') << enum_string.value()
-		<< (newline ? line_terminator_ : "");
+		<< line_terminator;
       }
       else {
 	stream_ << std::string(indent, ' ') << value
-		<< (newline ? line_terminator_ : "");
+		<< line_terminator;
       }
     }
 
@@ -590,9 +587,9 @@ namespace pprint {
 			    is_specialization<T, std::multimap>::value == false &&
 			    is_specialization<T, std::unordered_map>::value == false &&
 			    is_specialization<T, std::unordered_multimap>::value == false, void>::type
-    print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
+    print_internal(T value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
       stream_ << std::string(indent, ' ') << value
-	      << (newline ? line_terminator_ : "");
+	      << line_terminator;
     }
 
     template <typename T>
@@ -618,151 +615,147 @@ namespace pprint {
 			    is_specialization<T, std::multimap>::value == false &&
 			    is_specialization<T, std::unordered_map>::value == false &&
 			    is_specialization<T, std::unordered_multimap>::value == false, void>::type
-    print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
+    print_internal(T value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
       stream_ << std::string(indent, ' ') << "<Object " << type(value) << " at " << &value << ">"
-	      << (newline ? line_terminator_ : "");
+	      << line_terminator;
     }
 
     template <typename T>
     typename std::enable_if<std::is_member_function_pointer<T>::value == true, void>::type
-    print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
+    print_internal(T value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
       stream_ << std::string(indent, ' ') << "<Object.method " << type(value)
 	      << " at " << &value << ">"
-	      << (newline ? line_terminator_ : "");
+	      << line_terminator;
     }
 
     template <typename Container>
     typename std::enable_if<is_specialization<Container, std::vector>::value, void>::type    
-    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+    print_internal(const Container& value, size_t indent = 0, const std::string& line_terminator = "\n",
 		   size_t level = 0) {
       typedef typename Container::value_type T;
       if (level == 0 && !compact_) {
 	if (value.size() == 0) {
-	  print_internal_without_quotes("[", 0, false);
+	  print_internal_without_quotes("[", 0, "");
 	}
 	else if (value.size() == 1) {
-	  print_internal_without_quotes("[", 0, false);
-	  print_internal(value.front(), 0, false, level + 1);
+	  print_internal_without_quotes("[", 0, "");
+	  print_internal(value.front(), 0, "", level + 1);
 	}
 	else if (value.size() > 0) {
-	  print_internal_without_quotes("[", 0, true);
-	  print_internal(value.front(), indent + indent_, false, level + 1);
+	  print_internal_without_quotes("[", 0, "\n");
+	  print_internal(value.front(), indent + indent_, "", level + 1);
 	  if (value.size() > 1 && is_container<T>::value == false)
-	    print_internal_without_quotes(", ", 0, true);
+	    print_internal_without_quotes(", ", 0, "\n");
 	  else if (is_container<T>::value)
-	    print_internal_without_quotes(", ", 0, true);
+	    print_internal_without_quotes(", ", 0, "\n");
 	  for (size_t i = 1; i < value.size() - 1; i++) {
-	    print_internal(value[i], indent + indent_, false, level + 1);
+	    print_internal(value[i], indent + indent_, "", level + 1);
 	    if (is_container<T>::value == false)
-	      print_internal_without_quotes(", ", 0, true);
+	      print_internal_without_quotes(", ", 0, "\n");
 	    else
-	      print_internal_without_quotes(", ", 0, true);	    
+	      print_internal_without_quotes(", ", 0, "\n");	    
 	  }
 	  if (value.size() > 1) {
-	    print_internal(value.back(), indent + indent_, true, level + 1);
+	    print_internal(value.back(), indent + indent_, "\n", level + 1);
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("]");
+	  print_internal_without_quotes("]", 0, "");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("]");
+	  print_internal_without_quotes("]", 0, "");
 	else
-	  print_internal_without_quotes(line_terminator_ + "]");
-	if (newline)
-	  print_internal_without_quotes(line_terminator_);
+	  print_internal_without_quotes(line_terminator_ + "]", 0, "");
+	print_internal_without_quotes(line_terminator_, 0, "");
       }
       else {
 	if (value.size() == 0) {
-	  print_internal_without_quotes("[", indent, false);
+	  print_internal_without_quotes("[", indent, "");
 	}
 	else if (value.size() == 1) {
-	  print_internal_without_quotes("[", indent, false);
-	  print_internal(value.front(), 0, false, level + 1);
+	  print_internal_without_quotes("[", indent, "");
+	  print_internal(value.front(), 0, "", level + 1);
 	}
 	else if (value.size() > 0) {
-	  print_internal_without_quotes("[", indent, false);
-	  print_internal(value.front(), 0, false, level + 1);
+	  print_internal_without_quotes("[", indent, "");
+	  print_internal(value.front(), 0, "", level + 1);
 	  if (value.size() > 1)
-	    print_internal_without_quotes(", ", 0, false);
+	    print_internal_without_quotes(", ", 0, "");
 	  for (size_t i = 1; i < value.size() - 1; i++) {	      
-	    print_internal(value[i], 0, false, level + 1);
-	    print_internal_without_quotes(", ", 0, false);
+	    print_internal(value[i], 0, "", level + 1);
+	    print_internal_without_quotes(", ", 0, "");
 	  }
 	  if (value.size() > 1) {
-	    print_internal(value.back(), 0, false, level + 1);
+	    print_internal(value.back(), 0, "", level + 1);
 	  }
 	}
-	print_internal_without_quotes("]", 0, false);
+	print_internal_without_quotes("]", 0, "");
 	if (level == 0 && compact_)
-	  if (newline)
-	    print_internal_without_quotes(line_terminator_);
+	  print_internal_without_quotes(line_terminator_, 0, "");
       }
       
     }
 
     template <typename T, unsigned long int S>
-    void print_internal(const std::array<T, S>& value, size_t indent = 0, bool newline = false,
+    void print_internal(const std::array<T, S>& value, size_t indent = 0, const std::string& line_terminator = "\n",
 			size_t level = 0) {
       if (level == 0 && !compact_) {
 	if (value.size() == 0) {
-	  print_internal_without_quotes("[", 0, false);
+	  print_internal_without_quotes("[", 0, "");
 	}
 	else if (value.size() == 1) {
-	  print_internal_without_quotes("[", 0, false);
-	  print_internal(value.front(), 0, false, level + 1);
+	  print_internal_without_quotes("[", 0, "");
+	  print_internal(value.front(), 0, "", level + 1);
 	}
 	else if (value.size() > 0) {
-	  print_internal_without_quotes("[", 0, true);
-	  print_internal(value.front(), indent + indent_, false, level + 1);
+	  print_internal_without_quotes("[", 0, "\n");
+	  print_internal(value.front(), indent + indent_, "", level + 1);
 	  if (value.size() > 1 && is_container<T>::value == false)
-	    print_internal_without_quotes(", ", 0, true);
+	    print_internal_without_quotes(", ", 0, "\n");
 	  else if (is_container<T>::value)
-	    print_internal_without_quotes(", ", 0, true);
+	    print_internal_without_quotes(", ", 0, "\n");
 	  for (size_t i = 1; i < value.size() - 1; i++) {
-	    print_internal(value[i], indent + indent_, false, level + 1);
+	    print_internal(value[i], indent + indent_, "", level + 1);
 	    if (is_container<T>::value == false)
-	      print_internal_without_quotes(", ", 0, true);
+	      print_internal_without_quotes(", ", 0, "\n");
 	    else
-	      print_internal_without_quotes(", ", 0, true);	    
+	      print_internal_without_quotes(", ", 0, "\n");	    
 	  }
 	  if (value.size() > 1) {
-	    print_internal(value.back(), indent + indent_, true, level + 1);
+	    print_internal(value.back(), indent + indent_, "\n", level + 1);
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("]");
+	  print_internal_without_quotes("]", 0, "");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("]");
+	  print_internal_without_quotes("]", 0, "");
 	else
-	  print_internal_without_quotes(line_terminator_ + "]");
-	if (newline)
-	  print_internal_without_quotes(line_terminator_);	
+	  print_internal_without_quotes(line_terminator_ + "]", 0, "");
+	print_internal_without_quotes(line_terminator_, 0, "");	
       }
       else {
 	if (value.size() == 0) {
-	  print_internal_without_quotes("[", indent, false);
+	  print_internal_without_quotes("[", indent, "");
 	}
 	else if (value.size() == 1) {
-	  print_internal_without_quotes("[", indent, false);
-	  print_internal(value.front(), 0, false, level + 1);
+	  print_internal_without_quotes("[", indent, "");
+	  print_internal(value.front(), 0, "", level + 1);
 	}
 	else if (value.size() > 0) {
-	  print_internal_without_quotes("[", indent, false);
-	  print_internal(value.front(), 0, false, level + 1);
+	  print_internal_without_quotes("[", indent, "");
+	  print_internal(value.front(), 0, "", level + 1);
 	  if (value.size() > 1)
-	    print_internal_without_quotes(", ", 0, false);
+	    print_internal_without_quotes(", ", 0, "");
 	  for (size_t i = 1; i < value.size() - 1; i++) {	      
-	    print_internal(value[i], 0, false, level + 1);
-	    print_internal_without_quotes(", ", 0, false);
+	    print_internal(value[i], 0, "", level + 1);
+	    print_internal_without_quotes(", ", 0, "");
 	  }
 	  if (value.size() > 1) {
-	    print_internal(value.back(), 0, false, level + 1);
+	    print_internal(value.back(), 0, "", level + 1);
 	  }
 	}
-	print_internal_without_quotes("]", 0, false);
+	print_internal_without_quotes("]", 0, "");
 	if (level == 0 && compact_)
-	  if (newline)
-	    print_internal_without_quotes(line_terminator_);
+	  print_internal_without_quotes(line_terminator_, 0, "");
       }
       
     }    
@@ -770,75 +763,73 @@ namespace pprint {
     template <typename Container>
     typename std::enable_if<is_specialization<Container, std::list>::value ||
 			    is_specialization<Container, std::deque>::value, void>::type    
-    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+    print_internal(const Container& value, size_t indent = 0, const std::string& line_terminator = "\n",
 		   size_t level = 0) {
       typedef typename Container::value_type T;
       if (level == 0 && !compact_) {
 	if (value.size() == 0) {
-	  print_internal_without_quotes("[", 0, false);
+	  print_internal_without_quotes("[", 0, "");
 	}
 	else if (value.size() == 1) {
-	  print_internal_without_quotes("[", 0, false);
-	  print_internal(value.front(), 0, false, level + 1);
+	  print_internal_without_quotes("[", 0, "");
+	  print_internal(value.front(), 0, "", level + 1);
 	}
 	else if (value.size() > 0) {
-	  print_internal_without_quotes("[", 0, true);
-	  print_internal(value.front(), indent + indent_, false, level + 1);
+	  print_internal_without_quotes("[", 0, "\n");
+	  print_internal(value.front(), indent + indent_, "", level + 1);
 	  if (value.size() > 1 && is_container<T>::value == false)
-	    print_internal_without_quotes(", ", 0, true);
+	    print_internal_without_quotes(", ", 0, "\n");
 	  else if (is_container<T>::value)
-	    print_internal_without_quotes(", ", 0, true);
+	    print_internal_without_quotes(", ", 0, "\n");
 
 	  typename Container::const_iterator iterator;
 	  for (iterator = std::next(value.begin()); iterator != std::prev(value.end()); ++iterator) {
-	    print_internal(*iterator, indent + indent_, false, level + 1);
+	    print_internal(*iterator, indent + indent_, "", level + 1);
 	    if (is_container<T>::value == false)
-	      print_internal_without_quotes(", ", 0, true);
+	      print_internal_without_quotes(", ", 0, "\n");
 	    else
-	      print_internal_without_quotes(", ", 0, true);	    
+	      print_internal_without_quotes(", ", 0, "\n");	    
 	  }
 	  
 	  if (value.size() > 1) {
-	    print_internal(value.back(), indent + indent_, true, level + 1);
+	    print_internal(value.back(), indent + indent_, "\n", level + 1);
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("]");
+	  print_internal_without_quotes("]", 0, "");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("]");
+	  print_internal_without_quotes("]", 0, "");
 	else
-	  print_internal_without_quotes(line_terminator_ + "]");
-	if (newline)
-	  print_internal_without_quotes(line_terminator_);	
+	  print_internal_without_quotes(line_terminator_ + "]", 0, "");
+	print_internal_without_quotes(line_terminator_, 0, "");	
       }
       else {
 	if (value.size() == 0) {
-	  print_internal_without_quotes("[", indent, false);
+	  print_internal_without_quotes("[", indent, "");
 	}
 	else if (value.size() == 1) {
-	  print_internal_without_quotes("[", indent, false);
-	  print_internal(value.front(), 0, false, level + 1);
+	  print_internal_without_quotes("[", indent, "");
+	  print_internal(value.front(), 0, "", level + 1);
 	}
 	else if (value.size() > 0) {
-	  print_internal_without_quotes("[", indent, false);
-	  print_internal(value.front(), 0, false, level + 1);
+	  print_internal_without_quotes("[", indent, "");
+	  print_internal(value.front(), 0, "", level + 1);
 	  if (value.size() > 1)
-	    print_internal_without_quotes(", ", 0, false);
+	    print_internal_without_quotes(", ", 0, "");
 
 	  typename Container::const_iterator iterator;
 	  for (iterator = std::next(value.begin()); iterator != std::prev(value.end()); ++iterator) {
-	    print_internal(*iterator, 0, false, level + 1);
-	    print_internal_without_quotes(", ", 0, false);	    
+	    print_internal(*iterator, 0, "", level + 1);
+	    print_internal_without_quotes(", ", 0, "");	    
 	  }
 
 	  if (value.size() > 1) {
-	    print_internal(value.back(), 0, false, level + 1);
+	    print_internal(value.back(), 0, "", level + 1);
 	  }
 	}
-	print_internal_without_quotes("]", 0, false);
+	print_internal_without_quotes("]", 0, "");
 	if (level == 0 && compact_)
-	  if (newline)
-	    print_internal_without_quotes(line_terminator_);	
+	  print_internal_without_quotes(line_terminator_, 0, "");	
       }
       
     }
@@ -848,75 +839,73 @@ namespace pprint {
 			    is_specialization<Container, std::multiset>::value ||
 			    is_specialization<Container, std::unordered_set>::value ||
 			    is_specialization<Container, std::unordered_multiset>::value, void>::type    
-    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+    print_internal(const Container& value, size_t indent = 0, const std::string& line_terminator = "\n",
 		   size_t level = 0) {
       typedef typename Container::value_type T;
       if (level == 0 && !compact_) {
 	if (value.size() == 0) {
-	  print_internal_without_quotes("{", 0, false);
+	  print_internal_without_quotes("{", 0, "");
 	}
 	else if (value.size() == 1) {
-	  print_internal_without_quotes("{", 0, false);
-	  print_internal(*(value.begin()), 0, false, level + 1);
+	  print_internal_without_quotes("{", 0, "");
+	  print_internal(*(value.begin()), 0, "", level + 1);
 	}
 	else if (value.size() > 0) {
-	  print_internal_without_quotes("{", 0, true);
-	  print_internal(*(value.begin()), indent + indent_, false, level + 1);
+	  print_internal_without_quotes("{", 0, "\n");
+	  print_internal(*(value.begin()), indent + indent_, "", level + 1);
 	  if (value.size() > 1 && is_container<T>::value == false)
-	    print_internal_without_quotes(", ", 0, true);
+	    print_internal_without_quotes(", ", 0, "\n");
 	  else if (is_container<T>::value)
-	    print_internal_without_quotes(", ", 0, true);
+	    print_internal_without_quotes(", ", 0, "\n");
 
 	  typename Container::const_iterator iterator;
 	  for (iterator = std::next(value.begin()); iterator != std::prev(value.end()); ++iterator) {
-	    print_internal(*iterator, indent + indent_, false, level + 1);
+	    print_internal(*iterator, indent + indent_, "", level + 1);
 	    if (is_container<T>::value == false)
-	      print_internal_without_quotes(", ", 0, true);
+	      print_internal_without_quotes(", ", 0, "\n");
 	    else
-	      print_internal_without_quotes(", ", 0, true);	    
+	      print_internal_without_quotes(", ", 0, "\n");	    
 	  }
 	  
 	  if (value.size() > 1) {
-	    print_internal(*(std::prev(value.end())), indent + indent_, true, level + 1);
+	    print_internal(*(std::prev(value.end())), indent + indent_, "\n", level + 1);
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("}");
+	  print_internal_without_quotes("}", 0, "");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("}");
+	  print_internal_without_quotes("}", 0, "");
 	else
-	  print_internal_without_quotes(line_terminator_ + "}");
-	if (newline)
-	  print_internal_without_quotes(line_terminator_);	
+	  print_internal_without_quotes(line_terminator_ + "}", 0, "");
+	print_internal_without_quotes(line_terminator_, 0, "");	
       }
       else {
 	if (value.size() == 0) {
-	  print_internal_without_quotes("{", indent, false);
+	  print_internal_without_quotes("{", indent, "");
 	}
 	else if (value.size() == 1) {
-	  print_internal_without_quotes("{", indent, false);
-	  print_internal(*(value.begin()), 0, false, level + 1);
+	  print_internal_without_quotes("{", indent, "");
+	  print_internal(*(value.begin()), 0, "", level + 1);
 	}
 	else if (value.size() > 0) {
-	  print_internal_without_quotes("{", indent, false);
-	  print_internal(*(value.begin()), 0, false, level + 1);
+	  print_internal_without_quotes("{", indent, "");
+	  print_internal(*(value.begin()), 0, "", level + 1);
 	  if (value.size() > 1)
-	    print_internal_without_quotes(", ", 0, false);
+	    print_internal_without_quotes(", ", 0, "");
 
 	  typename Container::const_iterator iterator;
 	  for (iterator = std::next(value.begin()); iterator != std::prev(value.end()); ++iterator) {
-	    print_internal(*iterator, 0, false, level + 1);
-	    print_internal_without_quotes(", ", 0, false);	    
+	    print_internal(*iterator, 0, "", level + 1);
+	    print_internal_without_quotes(", ", 0, "");	    
 	  }
 
 	  if (value.size() > 1) {
-	    print_internal(*(std::prev(value.end())), 0, false, level + 1);
+	    print_internal(*(std::prev(value.end())), 0, "", level + 1);
 	  }
 	}
-	print_internal_without_quotes("}", 0, false);
+	print_internal_without_quotes("}", 0, "");
 	if (level == 0 && compact_)
-	  if (newline)
-	    print_internal_without_quotes(line_terminator_);
+	  print_internal_without_quotes(line_terminator_, 0, "");
       }
       
     }    
@@ -926,133 +915,131 @@ namespace pprint {
 			    is_specialization<T, std::multimap>::value == true ||
 			    is_specialization<T, std::unordered_map>::value == true ||
 			    is_specialization<T, std::unordered_multimap>::value == true, void>::type
-    print_internal(const T& value, size_t indent = 0, bool newline = false, size_t level = 0) {
+    print_internal(const T& value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
       typedef typename T::mapped_type Value;
       if (level == 0 && !compact_) {
 	if (value.size() == 0) {
-	  print_internal_without_quotes("{", 0, false);
+	  print_internal_without_quotes("{", 0, "");
 	}
 	else if (value.size() == 1) {
-	  print_internal_without_quotes("{", 0, false);
+	  print_internal_without_quotes("{", 0, "");
 	  for (auto& kvpair : value) {
-	    print_internal(kvpair.first, 0, false, level + 1);
-	    print_internal_without_quotes(" : ", 0, false);
-	    print_internal(kvpair.second, 0, false, level + 1);
+	    print_internal(kvpair.first, 0, "", level + 1);
+	    print_internal_without_quotes(" : ", 0, "");
+	    print_internal(kvpair.second, 0, "", level + 1);
 	  }
 	}
 	else if (value.size() > 0) {
 	  size_t count = 0;
 	  for (auto& kvpair : value) {
 	    if (count == 0) {
-	      print_internal_without_quotes("{", 0, true);
-	      print_internal(kvpair.first, indent + indent_, false, level + 1);
-	      print_internal_without_quotes(" : ", 0, false);
-	      print_internal(kvpair.second, 0, false, level + 1);
+	      print_internal_without_quotes("{", 0, "\n");
+	      print_internal(kvpair.first, indent + indent_, "", level + 1);
+	      print_internal_without_quotes(" : ", 0, "");
+	      print_internal(kvpair.second, 0, "", level + 1);
 	      if (value.size() > 1 && is_container<Value>::value == false)
-		print_internal_without_quotes(", ", 0, true);
+		print_internal_without_quotes(", ", 0, "\n");
 	      else if (is_container<Value>::value)
-		print_internal_without_quotes(", ", 0, true);
+		print_internal_without_quotes(", ", 0, "\n");
 	    }
 	    else if (count + 1 < value.size()) {
-	      print_internal(kvpair.first, indent + indent_, false, level + 1);
-	      print_internal_without_quotes(" : ", 0, false);
-	      print_internal(kvpair.second, 0, false, level + 1);
+	      print_internal(kvpair.first, indent + indent_, "", level + 1);
+	      print_internal_without_quotes(" : ", 0, "");
+	      print_internal(kvpair.second, 0, "", level + 1);
 	      if (is_container<Value>::value == false)
-		print_internal_without_quotes(", ", 0, true);
+		print_internal_without_quotes(", ", 0, "\n");
 	      else
-		print_internal_without_quotes(", ", 0, true);
+		print_internal_without_quotes(", ", 0, "\n");
 	    }
 	    else {
-	      print_internal(kvpair.first, indent + indent_, false, level + 1);
-	      print_internal_without_quotes(" : ", 0, false);
-	      print_internal(kvpair.second, 0, true, level + 1);
+	      print_internal(kvpair.first, indent + indent_, "", level + 1);
+	      print_internal_without_quotes(" : ", 0, "");
+	      print_internal(kvpair.second, 0, "\n", level + 1);
 	    }
 	    count += 1;
 	  }	  
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("}");
+	  print_internal_without_quotes("}", 0, "");
 	else if (is_container<Value>::value == false)
-	  print_internal_without_quotes("}");
+	  print_internal_without_quotes("}", 0, "");
 	else
-	  print_internal_without_quotes(line_terminator_ + "}");
-	if (newline)
-	  print_internal_without_quotes(line_terminator_);	
+	  print_internal_without_quotes(line_terminator_ + "}", 0, "");
+	print_internal_without_quotes(line_terminator_, 0, "");	
       }
       
       else {
 	if (value.size() == 0) {
-	  print_internal_without_quotes("{", indent, false);
+	  print_internal_without_quotes("{", indent, "");
 	}
 	else if (value.size() == 1) {
-	  print_internal_without_quotes("{", indent, false);
+	  print_internal_without_quotes("{", indent, "");
 	  for (auto& kvpair : value) {
-	    print_internal(kvpair.first, 0, false, level + 1);
-	    print_internal_without_quotes(" : ", 0, false);
-	    print_internal(kvpair.second, 0, false, level + 1);
+	    print_internal(kvpair.first, 0, "", level + 1);
+	    print_internal_without_quotes(" : ", 0, "");
+	    print_internal(kvpair.second, 0, "", level + 1);
 	  }
 	}
 	else if (value.size() > 0) {
 	  size_t count = 0;
 	  for (auto& kvpair : value) {
 	    if (count == 0) {
-	      print_internal_without_quotes("{", indent, false);
-	      print_internal(kvpair.first, 0, false, level + 1);
-	      print_internal_without_quotes(" : ", 0, false);
-	      print_internal(kvpair.second, 0, false, level + 1);
-	      print_internal_without_quotes(", ", 0, false);
+	      print_internal_without_quotes("{", indent, "");
+	      print_internal(kvpair.first, 0, "", level + 1);
+	      print_internal_without_quotes(" : ", 0, "");
+	      print_internal(kvpair.second, 0, "", level + 1);
+	      print_internal_without_quotes(", ", 0, "");
 	    }
 	    else if (count + 1 < value.size()) {
-	      print_internal(kvpair.first, indent + indent_, false, level + 1);
-	      print_internal_without_quotes(" : ", 0, false);
-	      print_internal(kvpair.second, 0, false, level + 1);
-	      print_internal_without_quotes(", ", 0, false);
+	      print_internal(kvpair.first, indent + indent_, "", level + 1);
+	      print_internal_without_quotes(" : ", 0, "");
+	      print_internal(kvpair.second, 0, "", level + 1);
+	      print_internal_without_quotes(", ", 0, "");
 	    }
 	    else {
-	      print_internal(kvpair.first, 0, false, level + 1);
-	      print_internal_without_quotes(" : ", 0, false);
-	      print_internal(kvpair.second, 0, false, level + 1);
+	      print_internal(kvpair.first, 0, "", level + 1);
+	      print_internal_without_quotes(" : ", 0, "");
+	      print_internal(kvpair.second, 0, "", level + 1);
 	    }
 	    count += 1;
 	  }	  
 	}
-	print_internal_without_quotes("}", 0, false);
+	print_internal_without_quotes("}", 0, "");
 	if (level == 0 && compact_)
-	  if (newline)
-	    print_internal_without_quotes(line_terminator_);
+	  print_internal_without_quotes(line_terminator_, 0, "");
       }
     }
 
     template <typename Key, typename Value>
-    void print_internal(std::pair<Key, Value> value, size_t indent = 0, bool newline = false,
+    void print_internal(std::pair<Key, Value> value, size_t indent = 0, const std::string& line_terminator = "\n",
 			size_t level = 0) {
-      print_internal_without_quotes("(", indent);
-      print_internal(value.first, 0, false);
-      print_internal_without_quotes(", ");
-      print_internal(value.second, 0, false);
-      print_internal_without_quotes(")", 0, newline, level);
+      print_internal_without_quotes("(", indent, "");
+      print_internal(value.first, 0, "");
+      print_internal_without_quotes(", ", 0, "");
+      print_internal(value.second, 0, "");
+      print_internal_without_quotes(")", 0, line_terminator, level);
     }
 
     template <class ...Ts>
     void print_internal(std::variant<Ts...> value, size_t indent = 0,
-			bool newline = false, size_t level = 0) {
-      std::visit([=](const auto& value) { print_internal(value, indent, newline, level); }, value);
+			const std::string& line_terminator = "\n", size_t level = 0) {
+      std::visit([=](const auto& value) { print_internal(value, indent, line_terminator, level); }, value);
     }
 
     template <typename T>
     void print_internal(std::optional<T> value, size_t indent = 0,
-			bool newline = false, size_t level = 0) {
+			const std::string& line_terminator = "\n", size_t level = 0) {
       if (value) {
-	print_internal(value.value(), indent, newline, level);
+	print_internal(value.value(), indent, line_terminator, level);
       }
       else {
-	print_internal_without_quotes("nullopt", indent, newline, level);
+	print_internal_without_quotes("nullopt", indent, line_terminator, level);
       }
     }
 
     template <typename Container>
     typename std::enable_if<is_specialization<Container, std::queue>::value, void>::type
-    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+    print_internal(const Container& value, size_t indent = 0, const std::string& line_terminator = "\n",
 		   size_t level = 0) {
       auto current_compact = compact_;
       compact_ = true;
@@ -1063,13 +1050,13 @@ namespace pprint {
 	local_vector.push_back(local.front());
 	local.pop();
       }
-      print_internal(local_vector, indent, newline, level);
+      print_internal(local_vector, indent, line_terminator, level);
       compact_ = current_compact;
     }
 
     template <typename Container>
     typename std::enable_if<is_specialization<Container, std::priority_queue>::value, void>::type
-    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+    print_internal(const Container& value, size_t indent = 0, const std::string& line_terminator = "\n",
 		   size_t level = 0) {
       auto current_compact = compact_;
       compact_ = true;
@@ -1080,23 +1067,23 @@ namespace pprint {
 	local_vector.push_back(local.top());
 	local.pop();
       }
-      print_internal(local_vector, indent, newline, level);
+      print_internal(local_vector, indent, line_terminator, level);
       compact_ = current_compact;
     }
 
     template <typename T>
     void print_internal(std::initializer_list<T> value, size_t indent = 0,
-			bool newline = false, size_t level = 0) {
+			const std::string& line_terminator = "\n", size_t level = 0) {
       std::multiset<T> local;
       for(const T& x : value) {
 	local.insert(x);
       }
-      print_internal(local, indent, newline_, level);
+      print_internal(local, indent, line_terminator_, level);
     }
 
     template <typename Container>
     typename std::enable_if<is_specialization<Container, std::stack>::value, void>::type
-    print_internal(const Container& value, size_t indent = 0, bool newline = false,
+    print_internal(const Container& value, size_t indent = 0, const std::string& line_terminator = "\n",
 		   size_t level = 0) {
       bool current_compact = compact_;
       compact_ = false; // Need to print a stack like its a stack, i.e., vertical
@@ -1107,35 +1094,35 @@ namespace pprint {
 	local_vector.push_back(local.top());
 	local.pop();
       }
-      print_internal(local_vector, indent, newline, level);
+      print_internal(local_vector, indent, line_terminator, level);
       compact_ = current_compact;
     }
 
     template<class... Args>
-    void print_internal(const std::tuple<Args...>& value, size_t indent = 0, bool newline = false,
+    void print_internal(const std::tuple<Args...>& value, size_t indent = 0, const std::string& line_terminator = "\n",
 			size_t level = 0) {
       stream_ << std::string(indent, ' ') << value <<
-	(newline ? line_terminator_ : "");	
+	line_terminator;	
     }
 
     template<typename T>
-    void print_internal(const std::complex<T>& value, size_t indent = 0, bool newline = false,
+    void print_internal(const std::complex<T>& value, size_t indent = 0, const std::string& line_terminator = "\n",
 			size_t level = 0) {
       stream_ << std::string(indent, ' ') << "(" <<
 	value.real() << " + " << value.imag() << "i)" <<
-	(newline ? line_terminator_ : "");	
+	line_terminator;	
     }
 
     template<typename Pointer>
     typename std::enable_if<is_specialization<Pointer, std::unique_ptr>::value ||
 			    is_specialization<Pointer, std::shared_ptr>::value ||
 			    is_specialization<Pointer, std::weak_ptr>::value, void>::type
-    print_internal(const Pointer& value, size_t indent = 0, bool newline = false,
+    print_internal(const Pointer& value, size_t indent = 0, const std::string& line_terminator = "\n",
 		   size_t level = 0) {
       stream_ << std::string(indent, ' ') << "<" <<
 	type(value) <<
 	" at " << &value << ">" <<
-	(newline ? line_terminator_ : "");	
+	line_terminator;	
     }
 
   };
