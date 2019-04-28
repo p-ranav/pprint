@@ -15,6 +15,20 @@ TEST_CASE("Print empty vector (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
+TEST_CASE("Print simple 1-element vector (line_terminator = '\n', indent = 2)",
+	  "[std::vector]") {
+  std::vector<int> foo {1};
+
+  std::stringstream stream;
+  pprint::PrettyPrinter printer(stream);
+  printer.compact(true);
+  printer.print(foo);
+
+  const std::string expected = "[1]\n";
+
+  REQUIRE(stream.str() == expected);
+}
+
 TEST_CASE("Compact Print simple vector of three elements (line_terminator = '\n', indent = 2)",
 	  "[std::vector]") {
   std::vector<int> foo {1, 2, 3};
