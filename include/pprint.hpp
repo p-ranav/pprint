@@ -616,7 +616,7 @@ namespace pprint {
 			    is_specialization<T, std::unordered_map>::value == false &&
 			    is_specialization<T, std::unordered_multimap>::value == false, void>::type
     print_internal(T value, size_t indent = 0, const std::string& line_terminator = "\n", size_t level = 0) {
-      stream_ << std::string(indent, ' ') << "<Object " << type(value) << " at " << &value << ">"
+      stream_ << std::string(indent, ' ') << "<Object " << type(value) << ">"
 	      << line_terminator;
     }
 
