@@ -408,14 +408,27 @@ namespace pprint {
   {};
   
   class PrettyPrinter {
+  private:
+    std::ostream& stream_;
+    std::string line_terminator_;
+    size_t indent_;
+    bool newline_;
+    bool quotes_;
+    bool compact_;    
+
   public:
 
     PrettyPrinter(std::ostream& stream = std::cout) :
       stream_(stream),
+      line_terminator_("\n"),
       indent_(0),
       newline_(true),
       compact_(false),
       quotes_(true) {}
+
+    void line_terminator(const std::string& value) {
+      line_terminator_ = value;
+    }
 
     void indent(size_t indent) {
       indent_ = indent;
@@ -452,21 +465,21 @@ namespace pprint {
     template <typename T>
     typename std::enable_if<std::is_integral<T>::value == true, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << (newline ? line_terminator_ : "");
     }
 
     template <typename T>
     typename std::enable_if<std::is_null_pointer<T>::value == true, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << "nullptr" << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << "nullptr" << (newline ? line_terminator_ : "");
     }
 
     void print_internal(float value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << 'f' << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << 'f' << (newline ? line_terminator_ : "");
     }
 
     void print_internal(double value, size_t indent = 0, bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << (newline ? line_terminator_ : "");
     }
 
     void print_internal(const std::string& value, size_t indent = 0, bool newline = false,
@@ -474,7 +487,7 @@ namespace pprint {
       if (!quotes_)
 	print_internal_without_quotes(value, indent, newline, level);
       else
-	stream_ << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
+	stream_ << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? line_terminator_ : "");
     }
     
     void print_internal(const char * value, size_t indent = 0, bool newline = false,
@@ -482,34 +495,34 @@ namespace pprint {
       if (!quotes_)
 	print_internal_without_quotes(value, indent, newline, level);
       else
-	stream_ << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? "\n" : "");
+	stream_ << std::string(indent, ' ') << "\"" << value << "\"" << (newline ? line_terminator_ : "");
     }
 
     void print_internal(char value, size_t indent = 0, bool newline = false, size_t level = 0) {
       if (!quotes_)
 	print_internal_without_quotes(value, indent, newline, level);
       else
-	stream_ << std::string(indent, ' ') << "'" << value << "'" << (newline ? "\n" : "");
+	stream_ << std::string(indent, ' ') << "'" << value << "'" << (newline ? line_terminator_ : "");
     }    
 
     void print_internal_without_quotes(const std::string& value, size_t indent = 0,
 				       bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << (newline ? line_terminator_ : "");
     }
     
     void print_internal_without_quotes(const char * value, size_t indent = 0,
 				       bool newline = false, size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << (newline ? line_terminator_ : "");
     }    
 
     void print_internal_without_quotes(char value, size_t indent = 0, bool newline = false,
 				       size_t level = 0) {
-      stream_ << std::string(indent, ' ') << value << (newline ? "\n" : "");
+      stream_ << std::string(indent, ' ') << value << (newline ? line_terminator_ : "");
     }        
     
     void print_internal(bool value, size_t indent = 0, bool newline = false, size_t level = 0) {
       stream_ << std::string(indent, ' ') <<
-	(value ? "true" : "false") << (newline ? "\n" : "");
+	(value ? "true" : "false") << (newline ? line_terminator_ : "");
     }
 
     template <typename T>
@@ -519,7 +532,7 @@ namespace pprint {
 	return print_internal(nullptr, indent, newline, level);
       }
       stream_ << std::string(indent, ' ') << "<" << type(value) << " at "
-	      << value << ">" << (newline ? "\n" : "");
+	      << value << ">" << (newline ? line_terminator_ : "");
     }
 
     std::string demangle(const char* name) {
@@ -546,11 +559,11 @@ namespace pprint {
       auto enum_string = magic_enum::enum_name(value);
       if (enum_string.has_value()) {
 	stream_ << std::string(indent, ' ') << enum_string.value()
-		<< (newline ? "\n" : "");
+		<< (newline ? line_terminator_ : "");
       }
       else {
 	stream_ << std::string(indent, ' ') << value
-		<< (newline ? "\n" : "");
+		<< (newline ? line_terminator_ : "");
       }
     }
 
@@ -579,7 +592,7 @@ namespace pprint {
 			    is_specialization<T, std::unordered_multimap>::value == false, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
       stream_ << std::string(indent, ' ') << value
-	      << (newline ? "\n" : "");
+	      << (newline ? line_terminator_ : "");
     }
 
     template <typename T>
@@ -607,7 +620,7 @@ namespace pprint {
 			    is_specialization<T, std::unordered_multimap>::value == false, void>::type
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
       stream_ << std::string(indent, ' ') << "<Object " << type(value) << " at " << &value << ">"
-	      << (newline ? "\n" : "");
+	      << (newline ? line_terminator_ : "");
     }
 
     template <typename T>
@@ -615,7 +628,7 @@ namespace pprint {
     print_internal(T value, size_t indent = 0, bool newline = false, size_t level = 0) {
       stream_ << std::string(indent, ' ') << "<Object.method " << type(value)
 	      << " at " << &value << ">"
-	      << (newline ? "\n" : "");
+	      << (newline ? line_terminator_ : "");
     }
 
     template <typename Container>
@@ -654,9 +667,9 @@ namespace pprint {
 	else if (is_container<T>::value == false)
 	  print_internal_without_quotes("]");
 	else
-	  print_internal_without_quotes("\n]");
+	  print_internal_without_quotes(line_terminator_ + "]");
 	if (newline)
-	  print_internal_without_quotes("\n");
+	  print_internal_without_quotes(line_terminator_);
       }
       else {
 	if (value.size() == 0) {
@@ -682,7 +695,7 @@ namespace pprint {
 	print_internal_without_quotes("]", 0, false);
 	if (level == 0 && compact_)
 	  if (newline)
-	    print_internal_without_quotes("\n");
+	    print_internal_without_quotes(line_terminator_);
       }
       
     }
@@ -721,9 +734,9 @@ namespace pprint {
 	else if (is_container<T>::value == false)
 	  print_internal_without_quotes("]");
 	else
-	  print_internal_without_quotes("\n]");
+	  print_internal_without_quotes(line_terminator_ + "]");
 	if (newline)
-	  print_internal_without_quotes("\n");	
+	  print_internal_without_quotes(line_terminator_);	
       }
       else {
 	if (value.size() == 0) {
@@ -749,7 +762,7 @@ namespace pprint {
 	print_internal_without_quotes("]", 0, false);
 	if (level == 0 && compact_)
 	  if (newline)
-	    print_internal_without_quotes("\n");
+	    print_internal_without_quotes(line_terminator_);
       }
       
     }    
@@ -794,9 +807,9 @@ namespace pprint {
 	else if (is_container<T>::value == false)
 	  print_internal_without_quotes("]");
 	else
-	  print_internal_without_quotes("\n]");
+	  print_internal_without_quotes(line_terminator_ + "]");
 	if (newline)
-	  print_internal_without_quotes("\n");	
+	  print_internal_without_quotes(line_terminator_);	
       }
       else {
 	if (value.size() == 0) {
@@ -825,7 +838,7 @@ namespace pprint {
 	print_internal_without_quotes("]", 0, false);
 	if (level == 0 && compact_)
 	  if (newline)
-	    print_internal_without_quotes("\n");	
+	    print_internal_without_quotes(line_terminator_);	
       }
       
     }
@@ -872,9 +885,9 @@ namespace pprint {
 	else if (is_container<T>::value == false)
 	  print_internal_without_quotes("}");
 	else
-	  print_internal_without_quotes("\n}");
+	  print_internal_without_quotes(line_terminator_ + "}");
 	if (newline)
-	  print_internal_without_quotes("\n");	
+	  print_internal_without_quotes(line_terminator_);	
       }
       else {
 	if (value.size() == 0) {
@@ -903,7 +916,7 @@ namespace pprint {
 	print_internal_without_quotes("}", 0, false);
 	if (level == 0 && compact_)
 	  if (newline)
-	    print_internal_without_quotes("\n");
+	    print_internal_without_quotes(line_terminator_);
       }
       
     }    
@@ -962,9 +975,9 @@ namespace pprint {
 	else if (is_container<Value>::value == false)
 	  print_internal_without_quotes("}");
 	else
-	  print_internal_without_quotes("\n}");
+	  print_internal_without_quotes(line_terminator_ + "}");
 	if (newline)
-	  print_internal_without_quotes("\n");	
+	  print_internal_without_quotes(line_terminator_);	
       }
       
       else {
@@ -1006,7 +1019,7 @@ namespace pprint {
 	print_internal_without_quotes("}", 0, false);
 	if (level == 0 && compact_)
 	  if (newline)
-	    print_internal_without_quotes("\n");
+	    print_internal_without_quotes(line_terminator_);
       }
     }
 
@@ -1102,7 +1115,7 @@ namespace pprint {
     void print_internal(const std::tuple<Args...>& value, size_t indent = 0, bool newline = false,
 			size_t level = 0) {
       stream_ << std::string(indent, ' ') << value <<
-	(newline ? "\n" : "");	
+	(newline ? line_terminator_ : "");	
     }
 
     template<typename T>
@@ -1110,7 +1123,7 @@ namespace pprint {
 			size_t level = 0) {
       stream_ << std::string(indent, ' ') << "(" <<
 	value.real() << " + " << value.imag() << "i)" <<
-	(newline ? "\n" : "");	
+	(newline ? line_terminator_ : "");	
     }
 
     template<typename Pointer>
@@ -1122,14 +1135,9 @@ namespace pprint {
       stream_ << std::string(indent, ' ') << "<" <<
 	type(value) <<
 	" at " << &value << ">" <<
-	(newline ? "\n" : "");	
+	(newline ? line_terminator_ : "");	
     }
-    
-    std::ostream& stream_;
-    size_t indent_;
-    bool newline_;
-    bool quotes_;
-    bool compact_;
+
   };
   
 }
