@@ -286,5 +286,69 @@ printer.print(date);
 Today's date is 4/7/2019
 ```
 
+## User-defined types
+
+Here's an example to print user-defined types. Let's say you want to print Mesh objects
+
+```cpp
+struct Vector3 {
+  float x, y, z;
+};
+
+struct Mesh {
+  std::vector<Vector3> vertices;
+};
+```
+
+First, overload the ```<<``` operator for these structs:
+
+```cpp
+std::ostream& operator<<(std::ostream& os, const Vector3& v) {
+  pprint::PrettyPrinter printer(os);
+  printer.print_inline(std::make_tuple(v.x, v.y, v.z));
+  return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const Mesh& mesh) {
+  pprint::PrettyPrinter printer(os);
+  printer.quotes(false);
+  printer.print("Mesh {");
+  printer.indent(2);
+  printer.print_inline("vertices:", mesh.vertices);
+  printer.print("}");
+  return os;
+}
+```
+
+then simply call ```printer.print(Mesh)```
+
+```cpp
+Mesh quads = {{
+  {0, 0, 0}, {1, 0, 0}, {1, 1, 0}, {0, 0, 0}, {1, 1, 0}, {0, 1, 0},
+  {0, 0, 1}, {1, 0, 1}, {1, 1, 1}, {0, 0, 1}, {1, 1, 1}, {0, 1, 1},
+  }};
+
+pprint::PrettyPrinter printer;
+printer.print(quads);
+```
+
+```bash
+Mesh {
+  vertices: [
+      (0, 0, 0), 
+      (1, 0, 0), 
+      (1, 1, 0), 
+      (0, 0, 0), 
+      (1, 1, 0), 
+      (0, 1, 0), 
+      (0, 0, 1), 
+      (1, 0, 1), 
+      (1, 1, 1), 
+      (0, 0, 1), 
+      (1, 1, 1), 
+      (0, 1, 1)
+  ]
+}
+```
 ## License
 The project is available under the [MIT](https://opensource.org/licenses/MIT) license.
