@@ -457,6 +457,23 @@ namespace pprint {
       print(Fargs...);
     }
 
+    template <typename T>
+    void print_inline(T value) {
+      print_internal(value, indent_, "", 0);
+    }
+
+    template <typename T>
+    void print_inline(std::initializer_list<T> value) {
+      print_internal(value, indent_, "", 0);
+    }
+
+    template<typename T, typename... Targs>
+    void print_inline(T value, Targs... Fargs) {
+      print_internal(value, indent_, "", 0);
+      print_internal(" ", 0, "", 0);
+      print_inline(Fargs...);
+    }    
+
   private:
 
     template <typename T>
@@ -660,11 +677,11 @@ namespace pprint {
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("]", 0, "");
+	  print_internal_without_quotes("]", indent, "");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("]", 0, "");
+	  print_internal_without_quotes("]", indent, "");
 	else
-	  print_internal_without_quotes(line_terminator_ + "]", 0, "");
+	  print_internal_without_quotes(line_terminator_ + "]", indent, "");
 	print_internal_without_quotes(line_terminator_, 0, "");
       }
       else {
