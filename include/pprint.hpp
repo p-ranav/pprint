@@ -742,11 +742,11 @@ namespace pprint {
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("]", 0, "");
+	  print_internal_without_quotes("]", indent, "");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("]", 0, "");
+	  print_internal_without_quotes("]", indent, "");
 	else
-	  print_internal_without_quotes(line_terminator_ + "]", 0, "");
+	  print_internal_without_quotes(line_terminator_ + "]", indent, "");
 	print_internal_without_quotes(line_terminator_, 0, "");	
       }
       else {
@@ -813,11 +813,11 @@ namespace pprint {
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("]", 0, "");
+	  print_internal_without_quotes("]", indent, "");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("]", 0, "");
+	  print_internal_without_quotes("]", indent, "");
 	else
-	  print_internal_without_quotes(line_terminator_ + "]", 0, "");
+	  print_internal_without_quotes(line_terminator_ + "]", indent, "");
 	print_internal_without_quotes(line_terminator_, 0, "");	
       }
       else {
@@ -889,11 +889,11 @@ namespace pprint {
 	  }
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("}", 0, "");
+	  print_internal_without_quotes("}", indent, "");
 	else if (is_container<T>::value == false)
-	  print_internal_without_quotes("}", 0, "");
+	  print_internal_without_quotes("}", indent, "");
 	else
-	  print_internal_without_quotes(line_terminator_ + "}", 0, "");
+	  print_internal_without_quotes(line_terminator_ + "}", indent, "");
 	print_internal_without_quotes(line_terminator_, 0, "");	
       }
       else {
@@ -977,11 +977,11 @@ namespace pprint {
 	  }	  
 	}
 	if (value.size() == 0)
-	  print_internal_without_quotes("}", 0, "");
+	  print_internal_without_quotes("}", indent, "");
 	else if (is_container<Value>::value == false)
-	  print_internal_without_quotes("}", 0, "");
+	  print_internal_without_quotes("}", indent, "");
 	else
-	  print_internal_without_quotes(line_terminator_ + "}", 0, "");
+	  print_internal_without_quotes(line_terminator_ + "}", indent, "");
 	print_internal_without_quotes(line_terminator_, 0, "");	
       }
       
