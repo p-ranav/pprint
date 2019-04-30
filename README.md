@@ -47,24 +47,22 @@ printer.print(nullptr);
 3.14f
 2.718
 true
-'x'
-"Hello, 世界"
+x
+Hello, 世界
 nullptr
 ```
 
 ## Strings
 
-Maybe you don't want your strings to be quoted? Simply set ```printer.quotes(false)```
+Maybe you want your strings to be quoted? Simply set ```printer.quotes(true)```
 
 ```cpp
-printer.quotes(false);
-printer.print('A', 'B', 'C');   // parameter packing
-printer.print("1 2 3");
+printer.quotes(true);
+printer.print("Hello World");    
 ```
 
 ```bash
-A B C
-1 2 3
+"Hello World"
 ```
 
 ## Complex Numbers
