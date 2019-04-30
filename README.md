@@ -254,7 +254,7 @@ printer.print(foo);
 ```
 
 ```
-<Object main::Foo at 0x7ffc8c820890>
+<Object main::Foo>
 ```
 
 If an ```<<``` operator is available, pprint will use it to print your object:
