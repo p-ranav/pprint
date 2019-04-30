@@ -276,8 +276,7 @@ std::ostream& operator<<(std::ostream& os, const Date& dt) {
 
 ```cpp
 Date date(04, 07, 2019);
-std::cout << "Today's date is ";
-printer.print(date);
+printer.print("Today's date is", date);
 ```
 
 ```bash
