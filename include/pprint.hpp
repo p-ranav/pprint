@@ -456,7 +456,7 @@ namespace pprint {
       line_terminator_("\n"),
       indent_(2),
       compact_(false),
-      quotes_(true) {}
+      quotes_(false) {}
 
     PrettyPrinter& line_terminator(const std::string& value) {
       line_terminator_ = value;
