@@ -71,9 +71,9 @@ A B C
 
 ```cpp
 using namespace std::complex_literals;
-std::complex<double> cfoo = 1. + 2.5i;
-std::complex<double> cbar = 9. + 4i;
-printer.print(cfoo, "*", cbar, "=", (cfoo * cbar));   // parameter packing
+std::complex<double> foo = 1. + 2.5i;
+std::complex<double> bar = 9. + 4i;
+printer.print(foo, "*", bar, "=", (foo * bar));   // parameter packing
 ```
 
 ```bash
