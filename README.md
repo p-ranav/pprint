@@ -112,7 +112,7 @@ Current level: MEDIUM
 
 pprint supports a variety of STL sequence containers including ```std::vector```, ```std::list```, ```std::deque```, and ```std::array```. 
 
-Here's an exmaple pretty print of a simple 3x3 matrix:
+Here's an example pretty print of a simple 3x3 matrix:
 
 ```cpp
 typedef std::array<std::array<int, 3>, 3> Mat3x3;
