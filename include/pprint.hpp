@@ -491,7 +491,10 @@ namespace pprint {
     template<typename T, typename... Targs>
     void print(T value, Targs... Fargs) {
       print_internal(value, 0, "", 0);
+      auto current_quotes = quotes_;
+      quotes_ = false;
       print_internal(" ", 0, "", 0);
+      quotes_ = current_quotes;
       print(Fargs...);
     }
 
@@ -508,7 +511,10 @@ namespace pprint {
     template<typename T, typename... Targs>
     void print_inline(T value, Targs... Fargs) {
       print_internal(value, indent_, "", 0);
+      auto current_quotes = quotes_;
+      quotes_ = false;
       print_internal(" ", 0, "", 0);
+      quotes_ = current_quotes;
       print_inline(Fargs...);
     }    
 
