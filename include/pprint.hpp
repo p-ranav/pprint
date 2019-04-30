@@ -1,10 +1,14 @@
 /*
-                    .__        __   
-______ _____________|__| _____/  |_ 
-\____ \\____ \_  __ \  |/    \   __\  Pretty Printer for Modern C++
-|  |_> >  |_> >  | \/  |   |  \  |    https://github.com/p-ranav/pprint
-|   __/|   __/|__|  |__|___|  /__|  
-|__|   |__|                 \/      
+ _______  _______  ______    ___   __    _  _______ 
+|       ||       ||    _ |  |   | |  |  | ||       |  
+|    _  ||    _  ||   | ||  |   | |   |_| ||_     _|
+|   |_| ||   |_| ||   |_||_ |   | |       |  |   |  
+|    ___||    ___||    __  ||   | |  _    |  |   |  
+|   |    |   |    |   |  | ||   | | | |   |  |   |  
+|___|    |___|    |___|  |_||___| |_|  |__|  |___|  
+
+Pretty Printer for Modern C++
+https://github.com/p-ranav/pprint
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 SPDX-License-Identifier: MIT
