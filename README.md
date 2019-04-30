@@ -307,7 +307,6 @@ std::ostream& operator<<(std::ostream& os, const Vector3& v) {
 
 std::ostream& operator<<(std::ostream& os, const Mesh& mesh) {
   pprint::PrettyPrinter printer(os);
-  printer.quotes(false);
   printer.print("Mesh {");
   printer.indent(2);
   printer.print_inline("vertices:", mesh.vertices);
