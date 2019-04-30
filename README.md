@@ -138,6 +138,7 @@ pprint also supports compact printing of containers. Simply call ```printer.comp
 ```cpp
 std::vector<std::map<std::string, int>> foo {{{"a", 1}, {"b", 2}}, {{"c", 3}, {"d", 4}}};
 printer.compact(true);
+printer.quotes(true);
 printer.print("Foo =", foo);
 ```
 
@@ -210,6 +211,7 @@ var.push_back(std::pair<double, double>{1.1, 2.2});
 // Print the vector
 pprint::PrettyPrinter printer;
 printer.indent(2);
+printer.quotes(true);
 printer.print(var);
 ```
 
