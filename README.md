@@ -170,8 +170,7 @@ pprint can print container adaptors including ```std::queue```, ```std::priority
 
 ```cpp
 std::priority_queue<int> queue;
-for(int n : {1,8,5,6,3,4,0,9,7,2})
-  queue.push(n);
+for(int n : {1,8,5,6,3,4,0,9,7,2}) queue.push(n);
 printer.print(queue);
 ```
 
