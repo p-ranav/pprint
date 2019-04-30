@@ -139,9 +139,9 @@ pprint also supports compact printing of containers. Simply call ```printer.comp
 
 ```cpp
 std::vector<std::map<std::string, int>> foo {{{"a", 1}, {"b", 2}}, {{"c", 3}, {"d", 4}}};
+printer.quotes(false);
 printer.compact(true);
-std::cout << "Foo = ";
-printer.print(foo);
+printer.print("Foo =", foo);
 ```
 
 ```bash
