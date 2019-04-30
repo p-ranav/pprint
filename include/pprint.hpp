@@ -458,20 +458,24 @@ namespace pprint {
       compact_(false),
       quotes_(true) {}
 
-    void line_terminator(const std::string& value) {
+    PrettyPrinter& line_terminator(const std::string& value) {
       line_terminator_ = value;
+      return *this;
     }
 
-    void indent(size_t indent) {
+    PrettyPrinter& indent(size_t indent) {
       indent_ = indent;
+      return *this;
     }
 
-    void compact(bool value) {
+    PrettyPrinter& compact(bool value) {
       compact_ = value;
+      return *this;
     }
 
-    void quotes(bool value) {
+    PrettyPrinter& quotes(bool value) {
       quotes_ = value;
+      return *this;
     }    
 
     template <typename T>
