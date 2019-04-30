@@ -122,11 +122,11 @@ Mat3x3 matrix;
 matrix[0] = {1, 2, 3};
 matrix[1] = {4, 5, 6};
 matrix[2] = {7, 8, 9};
-printer.print(matrix);
+printer.print("Matrix =", matrix);
 ```
 
 ```bash
-[
+Matrix = [
   [1, 2, 3], 
   [4, 5, 6], 
   [7, 8, 9]
