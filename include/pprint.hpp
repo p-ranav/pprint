@@ -620,7 +620,7 @@ namespace pprint {
 		<< line_terminator;
       }
       else {
-	stream_ << std::string(indent, ' ') << value
+	stream_ << std::string(indent, ' ') << static_cast<std::underlying_type_t<T>>(value)
 		<< line_terminator;
       }
     }
