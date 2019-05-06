@@ -455,8 +455,8 @@ namespace pprint {
       stream_(stream),
       line_terminator_("\n"),
       indent_(2),
-      compact_(false),
-      quotes_(false) {}
+      quotes_(false),
+      compact_(false) {}
 
     PrettyPrinter& line_terminator(const std::string& value) {
       line_terminator_ = value;

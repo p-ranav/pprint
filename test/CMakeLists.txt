@@ -21,5 +21,11 @@ INCLUDE_DIRECTORIES("../include" ".")
 set_target_properties(PPRINT PROPERTIES OUTPUT_NAME tests)
 set_property(TARGET PPRINT PROPERTY CXX_STANDARD 17)
 
+if(MSVC)
+  target_compile_options(PPRINT PRIVATE /W4 /WX)
+else()
+  target_compile_options(PPRINT PRIVATE -Wall -Werror)
+endif()
+
 # Set ${PROJECT_NAME} as the startup project
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT PPRINT)
