@@ -10,7 +10,7 @@ add_library(pprint::pprint ALIAS pprint)
 target_compile_features(pprint INTERFACE cxx_std_17)
 target_include_directories(pprint INTERFACE
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>/include)
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>)
 
 if(PPRINT_BUILD_TESTS)
   add_subdirectory(test)
