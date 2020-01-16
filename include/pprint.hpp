@@ -92,19 +92,19 @@ namespace pprint {
   struct gen_seq<0, Is...> : seq<Is...>{};
 
   template<typename T>
-  T to_string(T value) {
+  inline T to_string(T value) {
     return value;
   }
 
-  std::string to_string(char value) {
+  inline std::string to_string(char value) {
     return "'" + std::string(1, value) + "'";
   }
 
-  std::string to_string(const char * value) {
+  inline std::string to_string(const char * value) {
     return "\"" + std::string(value) + "\"";
   }  
     
-  std::string to_string(const std::string& value) {
+  inline std::string to_string(const std::string& value) {
     return "\"" + value + "\"";
   }
  
