@@ -19,5 +19,7 @@ else()
   target_compile_options(pprint_test PRIVATE -Wall $<$<BOOL:${PPRINT_WERROR}>:-Werror>)
 endif()
 
+add_test(NAME pprint_test COMMAND pprint_test -s)
+
 # Set ${PROJECT_NAME} as the startup project
 set_property(DIRECTORY ${CMAKE_CURRENT_LIST_DIR} PROPERTY VS_STARTUP_PROJECT pprint_test)

@@ -6,3 +6,4 @@ compiler:
 script:
     - cmake . -DPPRINT_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release
     - cmake --build . --config Release
+    - ctest . --build-config Release --verbose
