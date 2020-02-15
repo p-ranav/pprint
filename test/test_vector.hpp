@@ -1,6 +1,7 @@
 #pragma once
-#include <catch.hpp>
 #include <pprint.hpp>
+
+#include "catch.hpp"
 
 TEST_CASE("Print empty vector (line_terminator = '\n', indent = 2)",
 	  "[std::vector]") {

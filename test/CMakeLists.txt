@@ -1,31 +1,25 @@
-cmake_minimum_required(VERSION 3.6)
-project(PPRINT)
+option(PPRINT_WERROR "Treat warnings as error")
 
-if(NOT CMAKE_BUILD_TYPE)
-set(CMAKE_BUILD_TYPE Release)
+if (MSVC)
+  add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 endif()
 
-# Disable deprecation for windows
-if (WIN32)
-add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-endif()	
-
-# PPRINT executable
-file(GLOB PPRINT_TEST_SOURCES
-"*.cpp"
-"*.hpp"
-"../include/pprint.hpp"
+add_executable(pprint_test
+  main.cpp
+  test_list.hpp
+  test_set.hpp
+  test_vector.hpp
+  catch.hpp
 )
-ADD_EXECUTABLE(PPRINT ${PPRINT_TEST_SOURCES})
-INCLUDE_DIRECTORIES("../include" ".")
-set_target_properties(PPRINT PROPERTIES OUTPUT_NAME tests)
-set_property(TARGET PPRINT PROPERTY CXX_STANDARD 17)
+target_link_libraries(pprint_test PUBLIC pprint)
 
 if(MSVC)
-  target_compile_options(PPRINT PRIVATE /W4 /WX)
+  target_compile_options(pprint_test PRIVATE /W4 $<$<BOOL:${PPRINT_WERROR}>:/WX>)
 else()
-  target_compile_options(PPRINT PRIVATE -Wall -Werror)
+  target_compile_options(pprint_test PRIVATE -Wall $<$<BOOL:${PPRINT_WERROR}>:-Werror>)
 endif()
 
+add_test(NAME pprint_test COMMAND pprint_test -s)
+
 # Set ${PROJECT_NAME} as the startup project
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT PPRINT)
+set_property(DIRECTORY ${CMAKE_CURRENT_LIST_DIR} PROPERTY VS_STARTUP_PROJECT pprint_test)
