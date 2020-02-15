@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 project(pprint VERSION 1.0.0 LANGUAGES CXX)
 option(PPRINT_BUILD_TESTS OFF)
 
+include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
 add_library(pprint INTERFACE)
@@ -16,6 +17,10 @@ if(PPRINT_BUILD_TESTS)
   add_subdirectory(test)
 endif()
 
+write_basic_package_version_file(pprintConfigVersion.cmake
+                                 COMPATIBILITY AnyNewerVersion)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pprintConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/pprint)
 install(TARGETS pprint EXPORT pprintConfig)
 install(EXPORT pprintConfig
         NAMESPACE pprint::
