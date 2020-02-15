@@ -4,6 +4,8 @@ compiler:
     - gcc
     - clang
 script:
-    - cmake . -DPPRINT_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release
-    - cmake --build . --config Release
-    - ctest . --build-config Release --verbose
+    - cmake . -DPPRINT_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/prefix
+    - cmake --build .
+    - cmake --build . --target package_source
+    - cmake --build . --target install
+    - ctest . --verbose-on-failure
