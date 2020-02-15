@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.8)
+
+if(DEFINED PROJECT_NAME)
+  set(PPRINT_SUBPROJECT ON)
+endif()
+
 project(pprint VERSION 1.0.0 LANGUAGES CXX)
 option(PPRINT_BUILD_TESTS OFF)
-option(PPRINT_CPACK OFF)
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
@@ -19,23 +23,23 @@ if(PPRINT_BUILD_TESTS)
   add_subdirectory(test)
 endif()
 
-configure_file(pprint.pc.in pprint.pc @ONLY)
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/pprint.pc"
-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
-write_basic_package_version_file(pprintConfigVersion.cmake
-                                 COMPATIBILITY AnyNewerVersion)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pprintConfigVersion.cmake
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/pprint)
-install(TARGETS pprint EXPORT pprintConfig)
-install(EXPORT pprintConfig
-        NAMESPACE pprint::
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/pprint)
-install(FILES ${CMAKE_CURRENT_LIST_DIR}/include/pprint.hpp
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/pprint)
-install(FILES LICENSE
-        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/licenses/pprint)
+if(NOT PPRINT_SUBPROJECT)
+  configure_file(pprint.pc.in pprint.pc @ONLY)
+  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/pprint.pc"
+          DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+  write_basic_package_version_file(pprintConfigVersion.cmake
+                                   COMPATIBILITY AnyNewerVersion)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pprintConfigVersion.cmake
+          DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/pprint)
+  install(TARGETS pprint EXPORT pprintConfig)
+  install(EXPORT pprintConfig
+          NAMESPACE pprint::
+          DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/pprint)
+  install(FILES ${CMAKE_CURRENT_LIST_DIR}/include/pprint.hpp
+          DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/pprint)
+  install(FILES LICENSE
+          DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/licenses/pprint)
 
-if(PPRINT_CPACK)
   # Simple glob to regex conversion (.gitignore => CPACK_SOURCE_IGNORE_FILES)
   file(READ ".gitignore" DOT_GITIGNORE)
   string(REPLACE ";" "RANDOMSEQUENCE" DOT_GITIGNORE "${DOT_GITIGNORE}")
