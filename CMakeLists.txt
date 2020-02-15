@@ -19,6 +19,9 @@ if(PPRINT_BUILD_TESTS)
   add_subdirectory(test)
 endif()
 
+configure_file(pprint.pc.in pprint.pc @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/pprint.pc"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
 write_basic_package_version_file(pprintConfigVersion.cmake
                                  COMPATIBILITY AnyNewerVersion)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pprintConfigVersion.cmake
@@ -56,6 +59,7 @@ if(PPRINT_CPACK)
     .appveyor.yml
   )
   set(CPACK_SOURCE_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}")
+  set(CPACK_GENERATOR "TGZ;TXZ")
   set(CPACK_SOURCE_GENERATOR "TGZ;TXZ")
   include(CPack)
 endif()
