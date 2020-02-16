@@ -1,9 +1,9 @@
 #pragma once
 #include <pprint.hpp>
 
-#include "catch.hpp"
+#include "catch2/catch.hpp"
 
-TEST_CASE("Print empty list (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print empty list (line_terminator = '/n', indent = 2)",
 	  "[std::list]") {
   std::list<int> foo {};
 
@@ -16,7 +16,7 @@ TEST_CASE("Print empty list (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Print simple 1-element list (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print simple 1-element list (line_terminator = '/n', indent = 2)",
 	  "[std::list]") {
   std::list<int> foo {1};
 
@@ -30,7 +30,7 @@ TEST_CASE("Print simple 1-element list (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Compact Print simple list of three elements (line_terminator = '\n', indent = 2)",
+TEST_CASE("Compact Print simple list of three elements (line_terminator = '/n', indent = 2)",
 	  "[std::list]") {
   std::list<int> foo {1, 2, 3};
 
@@ -44,7 +44,7 @@ TEST_CASE("Compact Print simple list of three elements (line_terminator = '\n', 
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Print simple list of three elements (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print simple list of three elements (line_terminator = '/n', indent = 2)",
 	  "[std::list]") {
   std::list<int> foo {1, 2, 3};
 
@@ -61,7 +61,7 @@ TEST_CASE("Print simple list of three elements (line_terminator = '\n', indent =
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Print list of lists (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print list of lists (line_terminator = '/n', indent = 2)",
 	  "[std::list]") {
 
   std::stringstream stream;
@@ -78,7 +78,7 @@ TEST_CASE("Print list of lists (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Print nested list (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print nested list (line_terminator = '/n', indent = 2)",
 	  "[std::list]") {
 
   std::stringstream stream;
@@ -94,7 +94,7 @@ TEST_CASE("Print nested list (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Compact Print nested list (line_terminator = '\n', indent = 2)",
+TEST_CASE("Compact Print nested list (line_terminator = '/n', indent = 2)",
 	  "[std::list]") {
 
   std::stringstream stream;
@@ -107,7 +107,7 @@ TEST_CASE("Compact Print nested list (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Compact Print empty 3D matrix (list) (line_terminator = '\n', indent = 2)",
+TEST_CASE("Compact Print empty 3D matrix (list) (line_terminator = '/n', indent = 2)",
 	  "[std::list]") {
 
   std::stringstream stream;
@@ -120,7 +120,7 @@ TEST_CASE("Compact Print empty 3D matrix (list) (line_terminator = '\n', indent 
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Print another nested matrix (list) (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print another nested matrix (list) (line_terminator = '/n', indent = 2)",
 	  "[std::list]") {
 
   std::stringstream stream;

@@ -1,0 +1,18 @@
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      CMAKE_GENERATOR: NMake Makefiles
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      CMAKE_GENERATOR: Unix Makefiles
+    - APPVEYOR_BUILD_WORKER_IMAGE: macOS
+      CMAKE_GENERATOR: Unix Makefiles
+
+install:
+  - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64;
+
+build_script:
+  - cmake . -DPPRINT_BUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=prefix -DCMAKE_BUILD_TYPE=Release
+  - cmake --build .
+  - cmake --build . --target package_source
+  - cmake --build . --target install
+  - ctest . --verbose-on-failure

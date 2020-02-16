@@ -1,4 +1,4 @@
-from conans import CMake, ConanFile
+from conans import CMake, ConanFile, tools
 import os
 
 
@@ -9,9 +9,12 @@ class PprintConan(ConanFile):
     homepage = "https://github.com/p-ranav/pprint"
     url = "https://github.com/p-ranav/pprint"
     license = "MIT"
-    exports_sources = "include/**", "test/**", "CMakeLists.txt", "LICENSE"
+    exports_sources = "include/**", "test/**", "CMakeLists.txt", "LICENSE", "pprint.pc.in"
     exports = "LICENSE"
     no_copy_source = True
+    requires = "catch2/2.11.0"
+    settings = "os", "arch", "compiler", "build_type"
+    generators = "cmake_find_package"
 
     def set_version(self):
         import re
@@ -25,12 +28,16 @@ class PprintConan(ConanFile):
         if self._cmake:
             return self._cmake
         self._cmake = CMake(self)
+        if tools.get_env("CONAN_RUN_TESTS"):
+            self._cmake.definitions["PPRINT_BUILD_TESTS"] = True
         self._cmake.configure()
         return self._cmake
 
     def build(self):
         cmake = self._configure_cmake()
         cmake.build()
+        if tools.get_env("CONAN_RUN_TESTS"):
+            self._cmake.test()
 
     def package(self):
         self.copy("LICENSE", dst="licenses")

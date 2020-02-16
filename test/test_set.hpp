@@ -1,9 +1,9 @@
 #pragma once
 #include <pprint.hpp>
 
-#include "catch.hpp"
+#include "catch2/catch.hpp"
 
-TEST_CASE("Print empty set (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print empty set (line_terminator = '/n', indent = 2)",
 	  "[std::set]") {
   std::set<int> foo {};
 
@@ -16,7 +16,7 @@ TEST_CASE("Print empty set (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Print simple 1-element set (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print simple 1-element set (line_terminator = '/n', indent = 2)",
 	  "[std::set]") {
   std::set<int> foo {1};
 
@@ -30,7 +30,7 @@ TEST_CASE("Print simple 1-element set (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Compact Print simple set of three elements (line_terminator = '\n', indent = 2)",
+TEST_CASE("Compact Print simple set of three elements (line_terminator = '/n', indent = 2)",
 	  "[std::set]") {
   std::set<int> foo {1, 2, 3};
 
@@ -44,7 +44,7 @@ TEST_CASE("Compact Print simple set of three elements (line_terminator = '\n', i
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Print simple set of three elements (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print simple set of three elements (line_terminator = '/n', indent = 2)",
 	  "[std::set]") {
   std::set<int> foo {1, 2, 3};
 
@@ -61,7 +61,7 @@ TEST_CASE("Print simple set of three elements (line_terminator = '\n', indent = 
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Print set of sets (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print set of sets (line_terminator = '/n', indent = 2)",
 	  "[std::set]") {
 
   std::stringstream stream;
@@ -78,7 +78,7 @@ TEST_CASE("Print set of sets (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Print nested set (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print nested set (line_terminator = '/n', indent = 2)",
 	  "[std::set]") {
 
   std::stringstream stream;
@@ -94,7 +94,7 @@ TEST_CASE("Print nested set (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Compact Print nested set (line_terminator = '\n', indent = 2)",
+TEST_CASE("Compact Print nested set (line_terminator = '/n', indent = 2)",
 	  "[std::set]") {
 
   std::stringstream stream;
@@ -107,7 +107,7 @@ TEST_CASE("Compact Print nested set (line_terminator = '\n', indent = 2)",
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Compact Print empty 3D matrix (set) (line_terminator = '\n', indent = 2)",
+TEST_CASE("Compact Print empty 3D matrix (set) (line_terminator = '/n', indent = 2)",
 	  "[std::set]") {
 
   std::stringstream stream;
@@ -120,7 +120,7 @@ TEST_CASE("Compact Print empty 3D matrix (set) (line_terminator = '\n', indent =
   REQUIRE(stream.str() == expected);
 }
 
-TEST_CASE("Print another nested matrix (set) (line_terminator = '\n', indent = 2)",
+TEST_CASE("Print another nested matrix (set) (line_terminator = '/n', indent = 2)",
 	  "[std::set]") {
 
   std::stringstream stream;
