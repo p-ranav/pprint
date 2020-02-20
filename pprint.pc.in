@@ -1,7 +1,7 @@
 includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
 
-Name: pprint
-Description: Pretty Printer for Modern C++
-URL: https://github.com/p-ranav/pprint
+Name: @PROJECT_NAME@
+Description: @PROJECT_DESCRIPTION@
+URL: @PROJECT_HOMEPAGE_URL@
 Version: @PROJECT_VERSION@
 Cflags: -I${includedir}

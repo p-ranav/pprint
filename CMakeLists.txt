@@ -4,7 +4,9 @@ if(DEFINED PROJECT_NAME)
   set(PPRINT_SUBPROJECT ON)
 endif()
 
-project(pprint VERSION 1.0.0 LANGUAGES CXX HOMEPAGE_URL "https://github.com/p-ranav/pprint")
+project(pprint VERSION 1.0.0 LANGUAGES CXX
+  HOMEPAGE_URL "https://github.com/p-ranav/pprint"
+  DESCRIPTION "Pretty Printer for Modern C++")
 option(PPRINT_BUILD_TESTS "Build PPrint tests + enable CTest")
 
 include(CMakePackageConfigHelpers)
