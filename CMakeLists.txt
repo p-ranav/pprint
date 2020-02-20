@@ -4,8 +4,8 @@ if(DEFINED PROJECT_NAME)
   set(PPRINT_SUBPROJECT ON)
 endif()
 
-project(pprint VERSION 1.0.0 LANGUAGES CXX)
-option(PPRINT_BUILD_TESTS OFF)
+project(pprint VERSION 1.0.0 LANGUAGES CXX HOMEPAGE_URL "https://github.com/p-ranav/pprint")
+option(PPRINT_BUILD_TESTS "Build PPrint tests + enable CTest")
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
@@ -40,9 +40,8 @@ if(NOT PPRINT_SUBPROJECT)
   install(FILES LICENSE
           DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/licenses/pprint)
 
-  # Simple glob to regex conversion (.gitignore => CPACK_SOURCE_IGNORE_FILES)
-
-  if(EXISTS ".gitignore")
+  if(EXISTS "${PROJECT_SOURCE_DIR}/.gitignore")
+    # Simple glob to regex conversion (.gitignore => CPACK_SOURCE_IGNORE_FILES)
     file(READ ".gitignore" DOT_GITIGNORE)
     string(REPLACE ";" "RANDOMSEQUENCE" DOT_GITIGNORE "${DOT_GITIGNORE}")
     string(REPLACE "\n" ";" DOT_GITIGNORE "${DOT_GITIGNORE}")
@@ -62,6 +61,7 @@ if(NOT PPRINT_SUBPROJECT)
   # extra ignored files
   list(APPEND CPACK_SOURCE_IGNORE_FILES
     .git
+    .gitignore
     .travis.yml
     .appveyor.yml
   )

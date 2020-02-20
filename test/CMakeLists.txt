@@ -1,9 +1,5 @@
 option(PPRINT_WERROR "Treat warnings as error")
 
-if (MSVC)
-  add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-endif()
-
 add_executable(pprint_test
   main.cpp
   test_list.hpp
@@ -12,11 +8,13 @@ add_executable(pprint_test
 )
 target_link_libraries(pprint_test PUBLIC pprint)
 
-
-if(MSVC)
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
   target_compile_options(pprint_test PRIVATE /W4 $<$<BOOL:${PPRINT_WERROR}>:/WX>)
-else()
+  target_compile_definitions(pprint_test PRIVATE _CRT_SECURE_NO_WARNINGS)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "(GNU)|(Clang)|(AppleClang)")
   target_compile_options(pprint_test PRIVATE -Wall $<$<BOOL:${PPRINT_WERROR}>:-Werror>)
+else()
+  message(AUTHOR_WARNING "Unsupported compiler. Please consider adding support at ${PROJECT_HOMEPAGE_URL}.")
 endif()
 
 find_package(Catch2 QUIET)
