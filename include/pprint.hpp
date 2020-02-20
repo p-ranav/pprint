@@ -911,7 +911,7 @@ namespace pprint {
 	  print_internal_without_quotes("{", 0, "");
 	  print_internal(*(value.begin()), 0, "", level + 1);
 	}
-	else if (value.size() > 0) {
+	else {
 	  print_internal_without_quotes("{", 0, "\n");
 	  print_internal(*(value.begin()), indent + indent_, "", level + 1);
 	  if (value.size() > 1 && is_container<T>::value == false)
@@ -920,7 +920,7 @@ namespace pprint {
 	    print_internal_without_quotes(", ", 0, "\n");
 
 	  typename Container::const_iterator iterator;
-	  for (iterator = std::next(value.begin()); iterator != std::prev(value.end()); ++iterator) {
+	  for (iterator = std::next(value.begin()); (iterator != value.end()) && (std::next(iterator) != value.end()); ++iterator) {
 	    print_internal(*iterator, indent + indent_, "", level + 1);
 	    if (is_container<T>::value == false)
 	      print_internal_without_quotes(", ", 0, "\n");
@@ -929,7 +929,7 @@ namespace pprint {
 	  }
 	  
 	  if (value.size() > 1) {
-	    print_internal(*(std::prev(value.end())), indent + indent_, "\n", level + 1);
+	    print_internal(*iterator, indent + indent_, "\n", level + 1);
 	  }
 	}
 	if (value.size() == 0)
@@ -948,20 +948,20 @@ namespace pprint {
 	  print_internal_without_quotes("{", indent, "");
 	  print_internal(*(value.begin()), 0, "", level + 1);
 	}
-	else if (value.size() > 0) {
+	else {
 	  print_internal_without_quotes("{", indent, "");
 	  print_internal(*(value.begin()), 0, "", level + 1);
 	  if (value.size() > 1)
 	    print_internal_without_quotes(", ", 0, "");
 
 	  typename Container::const_iterator iterator;
-	  for (iterator = std::next(value.begin()); iterator != std::prev(value.end()); ++iterator) {
+	  for (iterator = std::next(value.begin()); (iterator != value.end()) && (std::next(iterator) != value.end()); ++iterator) {
 	    print_internal(*iterator, 0, "", level + 1);
 	    print_internal_without_quotes(", ", 0, "");	    
 	  }
 
 	  if (value.size() > 1) {
-	    print_internal(*(std::prev(value.end())), 0, "", level + 1);
+	    print_internal(*iterator, 0, "", level + 1);
 	  }
 	}
 	print_internal_without_quotes("}", 0, "");
@@ -969,7 +969,7 @@ namespace pprint {
 	  print_internal_without_quotes(line_terminator_, 0, "");
       }
       
-    }    
+    }
 
     template <typename T>
     typename std::enable_if<is_specialization<T, std::map>::value == true ||
