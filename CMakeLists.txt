@@ -60,6 +60,7 @@ if(NOT PPRINT_SUBPROJECT)
 
   # extra ignored files
   list(APPEND CPACK_SOURCE_IGNORE_FILES
+    .editorconfig
     .git
     .gitignore
     .travis.yml
