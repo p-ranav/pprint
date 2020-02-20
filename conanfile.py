@@ -1,4 +1,5 @@
 from conans import CMake, ConanFile, tools
+from conans.errors import ConanException
 import os
 
 
@@ -18,8 +19,10 @@ class PprintConan(ConanFile):
 
     def set_version(self):
         import re
-        m = re.search(r"project\(.*VERSION ([0-9.]+)", open(os.path.join(self.recipe_folder, "CMakeLists.txt")).read())
-        assert m, "Could not extract version from CMakeLists.txt"
+        m = re.search(r"project\(.*VERSION ([0-9a-zA-Z.-]+)[ )]",
+                      open(os.path.join(self.recipe_folder, "CMakeLists.txt")).read())
+        if not m:
+            raise ConanException("Could not extract version from CMakeLists.txt")
         self.version = m.group(1)
 
     _cmake = None
